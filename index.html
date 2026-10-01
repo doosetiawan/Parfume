@@ -50,7 +50,7 @@ nav{
   z-index:1000;
   padding:1rem 5%;
   display:flex;
-  justify-space:between;
+  justify-content:space-between; /* DIPERBAIKI */
   align-items:center;
   background:rgba(250,246,239,.92);
   backdrop-filter:blur(20px);
@@ -1565,28 +1565,32 @@ footer{
   margin-bottom:.5rem;
 }
 
-/* NOTIF */
+/* DIPERBAIKI: NOTIF */
 .notif{
   position:fixed;
   top:80px;
-  right:1rem;
-  left:1rem;
-  max-width:350px;
-  margin-left:auto;
+  right:2rem;
   z-index:3000;
   background:white;
   border-left:3px solid var(--gold);
-  padding:.8rem 1.2rem;
+  padding:1rem 1.5rem;
   display:flex;
   align-items:center;
-  gap:.8rem;
-  transform:translateY(-150%);
-  transition:.4s ease;
+  gap:1rem;
   box-shadow:0 10px 30px rgba(0,0,0,.15);
   border-radius:6px;
+  /* Properti Baru Agar Tersembunyi Sempurna */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: all 0.4s ease;
 }
 
-.notif.show{transform:translateY(0)}
+.notif.show{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
 .notif-icon{color:var(--gold);font-size:1.1rem}
 .notif-text{font-size:.8rem;color:#1a1512}
 
@@ -1724,6 +1728,15 @@ footer{
   .modal-box{
     padding:1.5rem 1rem;
     border-radius:12px;
+  }
+
+  /* DIPERBAIKI: NOTIF UNTUK HP */
+  .notif {
+    right: 1rem;
+    left: 1rem;
+    top: 5rem;
+    max-width: none;
+    justify-content: center;
   }
 }
 </style>
@@ -2469,6 +2482,9 @@ document.querySelectorAll('.filter-btn').forEach(btn=>{
   };
 });
 
+// BUG FIX: Hapus timer notifikasi jika sudah ada sebelumnya agar tidak nabrak
+let notifTimer;
+
 function addToCart(id){
   const p = products.find(x=>x.id===id);
   const ex = cart.find(x=>x.id===id);
@@ -2487,7 +2503,9 @@ function showNotif(msg){
   const n = document.getElementById('notif');
   document.getElementById('notifText').textContent = msg;
   n.classList.add('show');
-  setTimeout(()=>n.classList.remove('show'),2500);
+  
+  if(notifTimer) clearTimeout(notifTimer);
+  notifTimer = setTimeout(()=>n.classList.remove('show'),2500);
 }
 
 function openCart(){
