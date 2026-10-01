@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AROMATIQUE — Maison de Parfum</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0a08;
+  --bg-2:#15110d;
+  --cream:#faf6ef;
+  --cream-2:#f5efe6;
+  --gold:#b8860b;
+  --gold-2:#d4a843;
+  --muted:#6b6560;
+  --line:rgba(184,134,11,.18);
+  --dark:#1a1512;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--cream);
+  color:#2a2520;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+.serif{font-family:'Cormorant Garamond',serif}
+.display{font-family:'Playfair Display',serif}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:1.2rem 5%;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(250,246,239,.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,0,0,.06);
+  transition:.4s;
+}
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;letter-spacing:5px;font-weight:600;
+  color:#1a1512;
+}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{
+  color:#1a1512;text-decoration:none;font-size:.8rem;
+  letter-spacing:2px;text-transform:uppercase;font-weight:500;
+  position:relative;transition:.3s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-6px;left:50%;
+  width:0;height:1.5px;background:var(--gold);transition:.3s;
+}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%;left:0}
+.nav-right{display:flex;align-items:center;gap:1.5rem}
+.cart-btn{
+  position:relative;cursor:pointer;color:#1a1512;
+  transition:.3s;
+}
+.cart-btn:hover{color:var(--gold)}
+.cart-badge{
+  position:absolute;top:-8px;right:-10px;
+  background:var(--gold);color:white;
+  font-size:.65rem;font-weight:700;
+  width:18px;height:18px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* HERO - DARK */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
+  padding:0 5%;
+  background:
+    radial-gradient(ellipse at 70% 40%, rgba(184,134,11,.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(139,69,19,.08) 0%, transparent 50%),
+    var(--bg);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:80px 80px;
+  opacity:.3;
+  mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.1fr 1fr;
+  gap:4rem;align-items:center;
+  max-width:1400px;margin:0 auto;width:100%;
+  position:relative;z-index:2;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:.8rem;
+  font-size:.75rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold-2);margin-bottom:2rem;
+}
+.hero-tag::before{content:'';width:40px;height:1px;background:var(--gold-2)}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,6.5vw,6rem);
+  font-weight:400;line-height:1;
+  margin-bottom:2rem;letter-spacing:-2px;
+  color:var(--cream);
+}
+.hero h1 em{
+  font-style:italic;color:var(--gold-2);
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+}
+.hero-desc{
+  font-size:1.05rem;color:#a89f95;
+  max-width:480px;margin-bottom:2.5rem;
+  line-height:1.8;
+}
+.hero-actions{display:flex;gap:1.2rem;flex-wrap:wrap}
+.btn{
+  padding:1rem 2.2rem;font-size:.78rem;
+  letter-spacing:3px;text-transform:uppercase;
+  border:none;cursor:pointer;transition:.4s;
+  font-weight:600;text-decoration:none;
+  display:inline-flex;align-items:center;gap:.8rem;
+}
+.btn-primary{
+  background:var(--gold);color:#1a1512;
+}
+.btn-primary:hover{background:var(--gold-2);transform:translateY(-2px)}
+.btn-ghost{
+  background:transparent;color:var(--cream);
+  border:1px solid rgba(250,246,239,.2);
+}
+.btn-ghost:hover{border-color:var(--gold-2);color:var(--gold-2)}
+.btn-dark{
+  background:#1a1512;color:var(--cream);
+}
+.btn-dark:hover{background:var(--gold);color:#1a1512}
+
+.hero-visual{
+  position:relative;height:600px;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-bottle{
+  position:relative;z-index:2;
+  filter:drop-shadow(0 40px 60px rgba(0,0,0,.6));
+  animation:float 6s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-20px)}
+}
+.hero-circle{
+  position:absolute;
+  width:500px;height:500px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  animation:rotate 40s linear infinite;
+}
+.hero-circle::before{
+  content:'';position:absolute;
+  width:10px;height:10px;background:var(--gold-2);
+  border-radius:50%;top:-5px;left:50%;
+  box-shadow:0 0 20px var(--gold-2);
+}
+.hero-circle.c2{width:380px;height:380px;animation-duration:30s;animation-direction:reverse}
+@keyframes rotate{to{transform:rotate(360deg)}}
+.hero-stats{
+  position:absolute;bottom:0;left:0;right:0;
+  display:flex;justify-content:space-around;
+  padding:2rem 5%;
+  border-top:1px solid var(--line);
+  background:rgba(13,10,8,.7);backdrop-filter:blur(10px);
+  z-index:3;
+}
+.stat{text-align:center}
+.stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;color:var(--gold-2);font-weight:500;
+}
+.stat-label{
+  font-size:.7rem;letter-spacing:2px;
+  text-transform:uppercase;color:#a89f95;margin-top:.3rem;
+}
+
+/* SECTION HEADERS */
+.section{padding:7rem 5%;position:relative}
+.section-head{text-align:center;margin-bottom:4rem}
+.section-tag{
+  font-size:.75rem;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.2rem;display:block;
+  font-weight:600;
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:500;line-height:1.15;margin-bottom:1rem;
+  color:#1a1512;
+}
+.section-title em{font-style:italic;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:400}
+.section-title.light{color:var(--cream)}
+.section-sub{
+  max-width:600px;margin:0 auto;
+  color:var(--muted);font-size:1rem;line-height:1.8;
+}
+.section-sub.light{color:#a89f95}
+
+/* CATEGORIES - LIGHT */
+.categories{
+  background:var(--cream-2);
+  padding:7rem 5%;
+  overflow:hidden;
+}
+.cat-carousel{
+  position:relative;
+  max-width:1200px;margin:0 auto;
+}
+.cat-track{
+  display:flex;align-items:center;justify-content:center;
+  gap:2rem;
+  position:relative;
+  min-height:420px;
+}
+.cat-item{
+  text-align:center;
+  transition:.5s;
+  cursor:pointer;
+  flex-shrink:0;
+}
+.cat-item.center{transform:scale(1.15)}
+.cat-circle{
+  width:160px;height:160px;
+  border-radius:50%;
+  margin:0 auto 1.2rem;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 20px 40px rgba(0,0,0,.1);
+  transition:.5s;
+  background:linear-gradient(135deg,#f5efe6,#e8ddd0);
+  display:flex;align-items:center;justify-content:center;
+}
+.cat-item.center .cat-circle{
+  width:260px;height:260px;
+  box-shadow:0 30px 60px rgba(184,134,11,.25);
+}
+.cat-circle img,.cat-circle svg{
+  width:100%;height:100%;object-fit:cover;
+}
+.cat-name{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;font-weight:500;color:#1a1512;
+  transition:.3s;
+}
+.cat-item.center .cat-name{font-size:1.3rem;color:var(--gold)}
+.cat-desc{
+  font-size:.85rem;color:var(--muted);
+  max-width:400px;margin:1.5rem auto 0;
+  line-height:1.7;
+  text-align:center;
+  min-height:80px;
+}
+.cat-arrow{
+  position:absolute;top:50%;
+  transform:translateY(-50%);
+  width:44px;height:44px;
+  border-radius:50%;
+  background:white;
+  border:1px solid rgba(0,0,0,.08);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;color:#1a1512;
+  transition:.3s;
+  z-index:5;
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+.cat-arrow:hover{background:var(--gold);color:white;border-color:var(--gold)}
+.cat-arrow.prev{left:0}
+.cat-arrow.next{right:0}
+.cat-dots{
+  display:flex;justify-content:center;gap:.5rem;margin-top:2rem;
+}
+.cat-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(0,0,0,.15);cursor:pointer;transition:.3s;
+}
+.cat-dot.active{background:var(--gold);width:24px;border-radius:4px}
+
+/* CATALOG - LIGHT */
+.catalog{
+  background:white;
+  padding:7rem 5%;
+}
+.catalog-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:2rem;
+  max-width:1300px;margin:0 auto;
+}
+.catalog-card{
+  background:white;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,.06);
+  transition:.4s;
+  cursor:pointer;
+  border:1px solid rgba(0,0,0,.04);
+}
+.catalog-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 20px 40px rgba(0,0,0,.12);
+}
+.catalog-img{
+  height:260px;
+  background:linear-gradient(135deg,#f5efe6,#e8ddd0);
+  position:relative;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.catalog-img svg{width:85%;height:85%;transition:.5s}
+.catalog-card:hover .catalog-img svg{transform:scale(1.05)}
+.catalog-info{padding:1.5rem}
+.catalog-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem;font-weight:500;margin-bottom:.3rem;
+  color:#1a1512;
+}
+.catalog-notes{
+  font-size:.85rem;color:var(--muted);margin-bottom:.8rem;
+}
+.catalog-price{
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;font-weight:600;color:var(--gold);
+}
+.catalog-price small{
+  font-family:'Inter',sans-serif;
+  font-size:.7rem;color:var(--muted);font-weight:400;
+  display:block;margin-top:.2rem;
+}
+.catalog-cta{
+  text-align:center;margin-top:3rem;
+}
+
+/* COLLECTION - DARK */
+.collection{background:var(--bg)}
+.filter-bar{
+  display:flex;justify-content:center;gap:.5rem;
+  margin-bottom:3.5rem;flex-wrap:wrap;
+}
+.filter-btn{
+  padding:.7rem 1.8rem;background:transparent;
+  border:1px solid var(--line);color:var(--cream);
+  font-size:.72rem;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:.3s;font-weight:500;
+}
+.filter-btn:hover,.filter-btn.active{
+  background:var(--gold);color:#1a1512;border-color:var(--gold);
+}
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:2rem;max-width:1400px;margin:0 auto;
+}
+.product{
+  background:var(--bg-2);
+  border:1px solid var(--line);
+  position:relative;overflow:hidden;
+  transition:.5s;cursor:pointer;
+}
+.product:hover{
+  border-color:var(--gold);
+  transform:translateY(-8px);
+  box-shadow:0 30px 60px rgba(0,0,0,.5);
+}
+.product-img{
+  height:360px;
+  background:linear-gradient(135deg,#1a1512 0%,#0d0a08 100%);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.product-img::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 100%,rgba(184,134,11,.15) 0%,transparent 60%);
+}
+.product-badge{
+  position:absolute;top:1.2rem;left:1.2rem;z-index:2;
+  background:var(--gold);color:#1a1512;
+  padding:.4rem 1rem;font-size:.65rem;
+  letter-spacing:2px;text-transform:uppercase;font-weight:700;
+}
+.product-wish{
+  position:absolute;top:1.2rem;right:1.2rem;z-index:2;
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(13,10,8,.7);backdrop-filter:blur(10px);
+  border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:.3s;color:var(--cream);font-size:1.1rem;
+}
+.product-wish:hover{background:var(--gold);color:#1a1512;border-color:var(--gold)}
+.product-quick{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--gold);color:#1a1512;
+  padding:1rem;text-align:center;
+  font-size:.72rem;letter-spacing:3px;text-transform:uppercase;
+  font-weight:700;cursor:pointer;
+  transform:translateY(100%);transition:.4s;
+}
+.product:hover .product-quick{transform:translateY(0)}
+.product-info{padding:1.6rem}
+.product-cat{
+  font-size:.68rem;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gold-2);margin-bottom:.5rem;
+  font-weight:600;
+}
+.product-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;margin-bottom:.3rem;font-weight:500;color:var(--cream);
+}
+.product-notes{
+  font-size:.85rem;color:#8a8278;margin-bottom:1rem;
+  font-style:italic;
+}
+.product-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:1.2rem;border-top:1px solid var(--line);
+}
+.product-price{
+  font-family:'Playfair Display',serif;
+  font-size:1.25rem;color:var(--cream);
+}
+.product-price small{color:#8a8278;font-size:.72rem;margin-right:.3rem}
+.add-cart{
+  background:transparent;border:1px solid var(--line);
+  color:var(--cream);padding:.65rem 1.1rem;
+  font-size:.68rem;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:.3s;font-weight:600;
+}
+.add-cart:hover{background:var(--gold);color:#1a1512;border-color:var(--gold)}
+
+/* STORY - LIGHT */
+.story{background:var(--cream)}
+.story-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+  max-width:1300px;margin:0 auto;
+}
+.story-visual{
+  position:relative;height:550px;
+}
+.story-img{
+  position:absolute;border-radius:12px;overflow:hidden;
+  box-shadow:0 30px 60px rgba(0,0,0,.12);
+}
+.story-img-1{
+  top:0;left:0;width:75%;height:70%;
+  background:linear-gradient(135deg,#2a1f15,#0d0a08);
+  display:flex;align-items:center;justify-content:center;
+}
+.story-img-2{
+  bottom:0;right:0;width:55%;height:55%;
+  background:linear-gradient(135deg,#c9a961,#8b6914);
+  display:flex;align-items:center;justify-content:center;
+  border:4px solid white;
+}
+.story-badge{
+  position:absolute;bottom:35%;left:-10px;
+  background:var(--gold);color:#1a1512;
+  padding:1.2rem 1.8rem;z-index:3;
+  border-radius:4px;
+  box-shadow:0 10px 30px rgba(184,134,11,.3);
+}
+.story-badge-num{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;font-weight:600;line-height:1;
+}
+.story-badge-txt{
+  font-size:.68rem;letter-spacing:2px;
+  text-transform:uppercase;margin-top:.2rem;font-weight:600;
+}
+.story-text .section-tag{text-align:left}
+.story-text h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,3.5vw,2.8rem);
+  font-weight:500;line-height:1.15;margin-bottom:1.8rem;
+  color:#1a1512;
+}
+.story-text h2 em{font-style:italic;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:400}
+.story-text p{
+  color:var(--muted);margin-bottom:1.3rem;
+  font-size:.95rem;line-height:1.8;
+}
+.story-features{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1.8rem;margin-top:2rem;
+}
+.feature{
+  padding-left:1.2rem;border-left:2px solid var(--gold);
+}
+.feature h4{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;margin-bottom:.4rem;color:#1a1512;font-weight:600;
+}
+.feature p{font-size:.82rem;color:var(--muted);margin:0;line-height:1.6}
+
+/* WHY - LIGHT */
+.why{background:var(--cream-2)}
+.why-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.8rem;max-width:1300px;margin:0 auto;
+}
+.why-card{
+  padding:2.5rem 2rem;text-align:center;
+  background:white;
+  border-radius:12px;
+  transition:.4s;position:relative;
+  box-shadow:0 4px 20px rgba(0,0,0,.04);
+  border:1px solid rgba(0,0,0,.04);
+}
+.why-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 20px 40px rgba(0,0,0,.1);
+  border-color:var(--gold);
+}
+.why-icon{
+  width:65px;height:65px;margin:0 auto 1.3rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-size:1.6rem;
+}
+.why-card h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem;margin-bottom:.8rem;color:#1a1512;font-weight:600;
+}
+.why-card p{color:var(--muted);font-size:.88rem;line-height:1.7}
+
+/* TESTIMONIALS - DARK */
+.testi{background:var(--bg)}
+.testi-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:2rem;max-width:1300px;margin:0 auto;
+}
+.testi-card{
+  padding:2.5rem;border:1px solid var(--line);
+  background:var(--bg-2);position:relative;
+  border-radius:12px;
+}
+.testi-card::before{
+  content:'"';position:absolute;top:1rem;right:2rem;
+  font-family:'Playfair Display',serif;
+  font-size:5rem;color:var(--gold);opacity:.2;line-height:1;
+}
+.testi-stars{color:var(--gold-2);margin-bottom:1rem;letter-spacing:3px;font-size:.9rem}
+.testi-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-style:italic;
+  line-height:1.7;margin-bottom:1.5rem;color:var(--cream);
+}
+.testi-author{
+  display:flex;align-items:center;gap:1rem;
+  padding-top:1.3rem;border-top:1px solid var(--line);
+}
+.testi-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),#8b6914);
+  display:flex;align-items:center;justify-content:center;
+  color:#1a1512;font-weight:700;font-size:1rem;
+}
+.testi-name{font-weight:600;font-size:.92rem;color:var(--cream)}
+.testi-role{font-size:.72rem;color:#8a8278;letter-spacing:1px;text-transform:uppercase;margin-top:.2rem}
+
+/* NEWSLETTER - LIGHT */
+.newsletter{
+  background:linear-gradient(135deg,var(--cream-2) 0%,white 100%);
+  padding:6rem 5%;text-align:center;
+  border-top:1px solid rgba(0,0,0,.06);
+  position:relative;overflow:hidden;
+}
+.newsletter::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 50%,rgba(184,134,11,.06) 0%,transparent 70%);
+}
+.newsletter-content{position:relative;z-index:2;max-width:600px;margin:0 auto}
+.newsletter h2{
+  font-family:'Playfair Display',serif;
+  font-size:2.3rem;margin-bottom:1rem;font-weight:500;color:#1a1512;
+}
+.newsletter h2 em{font-style:italic;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:400}
+.newsletter p{color:var(--muted);margin-bottom:2rem;font-size:.95rem}
+.newsletter-form{
+  display:flex;gap:.5rem;max-width:480px;margin:0 auto;
+}
+.newsletter-form input{
+  flex:1;padding:1rem 1.5rem;
+  background:white;border:1px solid rgba(0,0,0,.1);
+  color:#1a1512;font-size:.9rem;border-radius:4px;
+}
+.newsletter-form input:focus{outline:none;border-color:var(--gold)}
+.newsletter-form button{
+  padding:1rem 2rem;background:var(--gold);color:#1a1512;
+  border:none;cursor:pointer;font-size:.75rem;
+  letter-spacing:2px;text-transform:uppercase;font-weight:700;
+  transition:.3s;border-radius:4px;
+}
+.newsletter-form button:hover{background:var(--gold-2)}
+
+/* FOOTER */
+footer{background:#1a1512;color:var(--cream);padding:5rem 5% 2rem}
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:3rem;max-width:1400px;margin:0 auto 3rem;
+}
+.footer-brand .logo{margin-bottom:1.3rem;display:inline-block;color:var(--cream)}
+.footer-brand p{color:#8a8278;font-size:.88rem;line-height:1.8;max-width:320px}
+.footer-social{display:flex;gap:.8rem;margin-top:1.3rem}
+.footer-social a{
+  width:38px;height:38px;border:1px solid rgba(250,246,239,.15);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--cream);text-decoration:none;transition:.3s;
+  font-size:.8rem;border-radius:50%;
+}
+.footer-social a:hover{background:var(--gold);color:#1a1512;border-color:var(--gold)}
+.footer-col h4{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;margin-bottom:1.3rem;color:var(--cream);font-weight:600;
+}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:.7rem}
+.footer-col a{
+  color:#8a8278;text-decoration:none;
+  font-size:.88rem;transition:.3s;
+}
+.footer-col a:hover{color:var(--gold-2)}
+.footer-bottom{
+  max-width:1400px;margin:0 auto;
+  padding-top:2rem;border-top:1px solid rgba(250,246,239,.1);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;
+  color:#8a8278;font-size:.78rem;
+}
+
+/* MODAL */
+.modal{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(10px);
+  z-index:2000;align-items:center;justify-content:center;
+  padding:2rem;
+}
+.modal.active{display:flex}
+.modal-box{
+  background:white;border-radius:16px;
+  max-width:700px;width:100%;max-height:90vh;overflow-y:auto;
+  padding:3rem;position:relative;
+  animation:slideUp .4s ease;
+}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-close{
+  position:absolute;top:1.3rem;right:1.3rem;
+  background:none;border:none;color:#1a1512;
+  font-size:1.5rem;cursor:pointer;width:36px;height:36px;
+  border:1px solid rgba(0,0,0,.1);border-radius:50%;transition:.3s;
+}
+.modal-close:hover{background:var(--gold);color:white;border-color:var(--gold)}
+.modal h2{
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;margin-bottom:.3rem;font-weight:500;color:#1a1512;
+}
+.modal .section-tag{margin-bottom:.8rem}
+.cart-list{margin:1.8rem 0}
+.cart-item{
+  display:grid;grid-template-columns:70px 1fr auto;
+  gap:1.2rem;align-items:center;
+  padding:1rem 0;border-bottom:1px solid rgba(0,0,0,.08);
+}
+.cart-item-img{
+  width:70px;height:70px;
+  background:var(--cream-2);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+}
+.cart-item-name{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:.2rem;color:#1a1512}
+.cart-item-meta{font-size:.78rem;color:var(--muted)}
+.cart-item-ctrl{display:flex;align-items:center;gap:.6rem;margin-top:.4rem}
+.qty-btn{
+  width:26px;height:26px;background:transparent;
+  border:1px solid rgba(0,0,0,.15);color:#1a1512;
+  cursor:pointer;transition:.3s;border-radius:4px;font-size:.9rem;
+}
+.qty-btn:hover{background:var(--gold);color:white;border-color:var(--gold)}
+.cart-item-price{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;color:var(--gold);text-align:right;font-weight:600;
+}
+.cart-item-remove{
+  background:none;border:none;color:var(--muted);
+  cursor:pointer;font-size:.72rem;margin-top:.3rem;
+  text-decoration:underline;transition:.3s;
+}
+.cart-item-remove:hover{color:#ff4757}
+.cart-summary{
+  padding:1.3rem 0;border-top:1px solid rgba(0,0,0,.08);
+  margin-top:1rem;
+}
+.cart-row{
+  display:flex;justify-content:space-between;
+  padding:.4rem 0;font-size:.88rem;color:var(--muted);
+}
+.cart-row.total{
+  font-size:1.2rem;color:#1a1512;
+  font-family:'Playfair Display',serif;font-weight:600;
+  padding-top:.8rem;border-top:1px solid rgba(0,0,0,.08);margin-top:.3rem;
+}
+.cart-row.total span:last-child{color:var(--gold)}
+.empty-cart{
+  text-align:center;padding:3rem 1rem;color:var(--muted);
+}
+.empty-cart svg{margin-bottom:1rem;opacity:.3}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.3rem 0}
+.form-group{display:flex;flex-direction:column}
+.form-group.full{grid-column:1/-1}
+.form-group label{
+  font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.4rem;font-weight:600;
+}
+.form-group input,.form-group textarea,.form-group select{
+  padding:.85rem 1rem;background:var(--cream-2);
+  border:1px solid rgba(0,0,0,.1);color:#1a1512;
+  font-family:inherit;font-size:.88rem;transition:.3s;border-radius:6px;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  outline:none;border-color:var(--gold);background:white;
+}
+.payment-options{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+  gap:.6rem;margin:.8rem 0;
+}
+.pay-opt{
+  padding:.8rem;border:1px solid rgba(0,0,0,.1);
+  background:white;cursor:pointer;
+  text-align:center;transition:.3s;border-radius:8px;
+}
+.pay-opt:hover{border-color:var(--gold)}
+.pay-opt.selected{border-color:var(--gold);background:rgba(184,134,11,.06)}
+.pay-opt-icon{font-size:1.3rem;margin-bottom:.3rem}
+.pay-opt-name{font-size:.68rem;letter-spacing:.5px;text-transform:uppercase;font-weight:600;color:#1a1512}
+.success{
+  text-align:center;padding:2rem;
+  background:rgba(46,213,115,.08);border:1px solid #2ed573;
+  margin-top:1.3rem;display:none;border-radius:8px;
+}
+.success.show{display:block;animation:slideUp .4s ease}
+.success-icon{font-size:2.5rem;color:#2ed573;margin-bottom:.8rem}
+
+/* NOTIF */
+.notif{
+  position:fixed;top:100px;right:2rem;z-index:3000;
+  background:white;border-left:3px solid var(--gold);
+  padding:1rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;
+  transform:translateX(120%);transition:.4s;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  border-radius:6px;
+}
+.notif.show{transform:translateX(0)}
+.notif-icon{color:var(--gold);font-size:1.2rem}
+.notif-text{font-size:.85rem;color:#1a1512}
+
+/* RESPONSIVE */
+@media(max-width:968px){
+  .hero-grid,.story-grid{grid-template-columns:1fr;gap:3rem}
+  .hero-visual{height:400px}
+  .hero-circle{width:350px;height:350px}
+  .hero-circle.c2{width:280px;height:280px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .form-grid{grid-template-columns:1fr}
+  .newsletter-form{flex-direction:column}
+  .cat-track{gap:1rem}
+  .cat-circle{width:120px;height:120px}
+  .cat-item.center .cat-circle{width:180px;height:180px}
+}
+@media(max-width:560px){
+  .footer-grid{grid-template-columns:1fr}
+  .hero-stats{flex-wrap:wrap;gap:1rem}
+  .story-features{grid-template-columns:1fr}
+  .modal-box{padding:2rem 1.3rem}
+  .cat-arrow{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">AROMA<span>·</span>TIQUE</div>
+  <ul class="nav-links">
+    <li><a href="#home">Beranda</a></li>
+    <li><a href="#categories">Kategori</a></li>
+    <li><a href="#catalog">Katalog</a></li>
+    <li><a href="#collection">Koleksi</a></li>
+    <li><a href="#story">Tentang</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="cart-btn" onclick="openCart()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid">
+    <div>
+      <span class="hero-tag">Maison de Parfum · Est. 2015</span>
+      <h1>Seni dalam<br>setiap <em>aroma</em>.</h1>
+      <p class="hero-desc">
+        AROMATIQUE meracik parfum eksklusif dari bahan-bahan langka pilihan — 
+        oud dari Assam, mawar Taif, dan ambergris murni. Setiap botol adalah 
+        mahakarya yang menceritakan kisah Anda.
+      </p>
+      <div class="hero-actions">
+        <a href="#collection" class="btn btn-primary">Jelajahi Koleksi →</a>
+        <a href="#story" class="btn btn-ghost">Kisah Kami</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-circle"></div>
+      <div class="hero-circle c2"></div>
+      <svg class="hero-bottle" width="260" height="400" viewBox="0 0 260 400">
+        <defs>
+          <linearGradient id="heroGlass" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0a1628" stop-opacity=".95"/>
+            <stop offset="30%" stop-color="#1a3a5c" stop-opacity=".85"/>
+            <stop offset="50%" stop-color="#2a5a8c" stop-opacity=".7"/>
+            <stop offset="70%" stop-color="#1a3a5c" stop-opacity=".85"/>
+            <stop offset="100%" stop-color="#0a1628" stop-opacity=".95"/>
+          </linearGradient>
+          <linearGradient id="heroCap" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#4a5568"/>
+            <stop offset="50%" stop-color="#2d3748"/>
+            <stop offset="100%" stop-color="#1a202c"/>
+          </linearGradient>
+          <linearGradient id="heroLiquid" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#1a3a5c"/>
+            <stop offset="100%" stop-color="#0a1628"/>
+          </linearGradient>
+        </defs>
+        <!-- Cap -->
+        <rect x="90" y="20" width="80" height="70" rx="4" fill="url(#heroCap)"/>
+        <rect x="95" y="25" width="70" height="4" fill="#fff" opacity=".2"/>
+        <rect x="90" y="85" width="80" height="10" fill="#1a202c"/>
+        <!-- Neck -->
+        <rect x="105" y="95" width="50" height="18" fill="#0a1628"/>
+        <!-- Body -->
+        <path d="M60 113 L200 113 L210 135 L210 370 Q210 390 190 390 L70 390 Q50 390 50 370 L50 135 Z" 
+              fill="url(#heroGlass)" stroke="#2a5a8c" stroke-width="1" opacity=".95"/>
+        <!-- Liquid -->
+        <path d="M60 180 L200 180 L205 200 L205 365 Q205 382 190 382 L70 382 Q55 382 55 365 L55 200 Z" 
+              fill="url(#heroLiquid)" opacity=".7"/>
+        <!-- Highlight -->
+        <rect x="70" y="125" width="6" height="240" fill="#fff" opacity=".12" rx="3"/>
+        <rect x="185" y="140" width="3" height="200" fill="#fff" opacity=".08" rx="1"/>
+        <!-- Label -->
+        <text x="130" y="270" text-anchor="middle" fill="#e8d4a0" font-family="Playfair Display" font-size="18" font-weight="600" letter-spacing="2">AROMATIQUE</text>
+        <text x="130" y="295" text-anchor="middle" fill="#c9a961" font-family="Playfair Display" font-size="22" font-weight="700" letter-spacing="3">NOIR</text>
+        <line x1="95" y1="310" x2="165" y2="310" stroke="#c9a961" stroke-width=".5"/>
+        <text x="130" y="328" text-anchor="middle" fill="#a89f95" font-family="Inter" font-size="7" letter-spacing="2">EAU DE PARFUM</text>
+        <text x="130" y="345" text-anchor="middle" fill="#a89f95" font-family="Inter" font-size="6" letter-spacing="1">100 ML · PARIS</text>
+      </svg>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Koleksi Eksklusif</div></div>
+    <div class="stat"><div class="stat-num">25K+</div><div class="stat-label">Pelanggan Setia</div></div>
+    <div class="stat"><div class="stat-num">9</div><div class="stat-label">Tahun Pengalaman</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Bahan Premium</div></div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+  <div class="section-head">
+    <span class="section-tag">Kategori Produk</span>
+    <h2 class="section-title">Wangi Unik untuk <em>Berbagai Kategori</em></h2>
+  </div>
+  <div class="cat-carousel">
+    <button class="cat-arrow prev" onclick="moveCat(-1)">‹</button>
+    <div class="cat-track" id="catTrack"></div>
+    <button class="cat-arrow next" onclick="moveCat(1)">›</button>
+    <div class="cat-dots" id="catDots"></div>
+  </div>
+  <p class="cat-desc" id="catDesc"></p>
+</section>
+
+<!-- CATALOG -->
+<section class="catalog" id="catalog">
+  <div class="section-head">
+    <span class="section-tag">Katalog Wewangian</span>
+    <h2 class="section-title">Katalog <em>wewangian</em> pilihan kami</h2>
+    <p class="section-sub">Diracik dari bahan-bahan alami terbaik, setiap wewangian kami menceritakan kisah unik melalui perpaduan notes yang harmonis.</p>
+  </div>
+  <div class="catalog-grid" id="catalogGrid"></div>
+  <div class="catalog-cta">
+    <button class="btn btn-dark">Lihat Katalog Lengkap →</button>
+  </div>
+</section>
+
+<!-- COLLECTION -->
+<section class="section collection" id="collection">
+  <div class="section-head">
+    <span class="section-tag" style="color:var(--gold-2)">Koleksi Signature</span>
+    <h2 class="section-title light">Parfum <em>signature</em> pilihan</h2>
+    <p class="section-sub light">Diracik oleh master perfumer dengan bahan-bahan terbaik dari lima benua. Temukan aroma yang menjadi identitas Anda.</p>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">Semua</button>
+    <button class="filter-btn" data-filter="women">Wanita</button>
+    <button class="filter-btn" data-filter="men">Pria</button>
+    <button class="filter-btn" data-filter="unisex">Unisex</button>
+    <button class="filter-btn" data-filter="exclusive">Exclusive</button>
+  </div>
+  <div class="products" id="productsGrid"></div>
+</section>
+
+<!-- STORY -->
+<section class="section story" id="story">
+  <div class="story-grid">
+    <div class="story-visual">
+      <div class="story-img story-img-1">
+        <svg width="180" height="300" viewBox="0 0 180 300">
+          <defs>
+            <linearGradient id="storyGlass1" x1="0%" y1="0%" x2="100%">
+              <stop offset="0%" stop-color="#1a1512"/>
+              <stop offset="50%" stop-color="#c9a961" stop-opacity=".5"/>
+              <stop offset="100%" stop-color="#1a1512"/>
+            </linearGradient>
+          </defs>
+          <rect x="60" y="15" width="60" height="50" rx="3" fill="#c9a961"/>
+          <rect x="70" y="65" width="40" height="15" fill="#1a1512"/>
+          <path d="M40 80 L140 80 L150 105 L150 285 Q150 295 140 295 L40 295 Q30 295 30 285 L30 105 Z" 
+                fill="url(#storyGlass1)" stroke="#c9a961" stroke-width=".5"/>
+          <rect x="50" y="95" width="5" height="170" fill="#fff" opacity=".15"/>
+        </svg>
+      </div>
+      <div class="story-img story-img-2">
+        <svg width="130" height="210" viewBox="0 0 130 210">
+          <defs>
+            <linearGradient id="storyGlass2" x1="0%" y1="0%" x2="100%">
+              <stop offset="0%" stop-color="#e8d4a0"/>
+              <stop offset="50%" stop-color="#c9a961"/>
+              <stop offset="100%" stop-color="#8b6914"/>
+            </linearGradient>
+          </defs>
+          <circle cx="65" cy="28" r="18" fill="#e8d4a0"/>
+          <rect x="60" y="46" width="10" height="18" fill="#8b6914"/>
+          <ellipse cx="65" cy="130" rx="50" ry="65" fill="url(#storyGlass2)" stroke="#fff" stroke-width=".5" opacity=".9"/>
+          <ellipse cx="50" cy="110" rx="4" ry="35" fill="#fff" opacity=".25"/>
+        </svg>
+      </div>
+      <div class="story-badge">
+        <div class="story-badge-num">2015</div>
+        <div class="story-badge-txt">Sejak</div>
+      </div>
+    </div>
+    <div class="story-text">
+      <span class="section-tag">Kisah Kami</span>
+      <h2>Sembilan tahun meracik <em>memori</em> dalam botol.</h2>
+      <p>
+        AROMATIQUE lahir dari kecintaan pendiri kami, <strong style="color:#1a1512">Armand Lestrange</strong>, 
+        terhadap seni parfum yang dipelajarinya langsung di Grasse, Prancis — 
+        ibu kota parfum dunia. Kembali ke Jakarta pada 2015, ia membawa misi: 
+        menghadirkan parfum berkualitas maison dengan karakter yang sesuai iklim tropis.
+      </p>
+      <p>
+        Setiap koleksi kami melalui proses 18 bulan — mulai dari riset bahan, 
+        formulasi oleh master perfumer, macerasi selama 6 minggu, hingga 
+        quality control ketat. Kami tidak terburu-buru, karena kesempurnaan 
+        membutuhkan waktu.
+      </p>
+      <div class="story-features">
+        <div class="feature">
+          <h4>Bahan Langka</h4>
+          <p>Oud Assam, mawar Taif, iris Florence, dan ambergris asli.</p>
+        </div>
+        <div class="feature">
+          <h4>Master Perfumer</h4>
+          <p>Diracik oleh tim dengan 30+ tahun pengalaman di industri.</p>
+        </div>
+        <div class="feature">
+          <h4>Cruelty Free</h4>
+          <p>100% vegan, tanpa uji hewan, ramah lingkungan.</p>
+        </div>
+        <div class="feature">
+          <h4>Longevity</h4>
+          <p>Konsentrat 25-30%, tahan 10-12 jam di kulit.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="section why" id="why">
+  <div class="section-head">
+    <span class="section-tag">Mengapa AROMATIQUE</span>
+    <h2 class="section-title">Keunggulan yang <em>berbeda</em></h2>
+    <p class="section-sub">Kami tidak sekadar menjual parfum — kami menghadirkan pengalaman.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon"></div>
+      <h3>Kualitas Maison</h3>
+      <p>Setanding dengan brand parfum niche dunia seperti Le Labo, Byredo, dan Maison Francis Kurkdjian.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">◈</div>
+      <h3>Gratis Refill</h3>
+      <p>Setiap pembelian mendapat voucher refill gratis seumur hidup di boutique kami.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">❋</div>
+      <h3>Personalisasi</h3>
+      <p>Layanan engraving nama dan custom scent consultation dengan perfumer profesional.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">✧</div>
+      <h3>Garansi Autentik</h3>
+      <p>Setiap botol memiliki nomor seri unik dan sertifikat keaslian dari maison.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testi" id="testi">
+  <div class="section-head">
+    <span class="section-tag" style="color:var(--gold-2)">Testimoni</span>
+    <h2 class="section-title light">Kata <em>mereka</em> tentang kami</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Midnight Rose benar-benar mengubah cara saya memandang parfum lokal. Longevity-nya luar biasa, saya semprot pagi dan masih tercium sampai malam.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">SA</div>
+        <div>
+          <div class="testi-name">Sabrina Anindita</div>
+          <div class="testi-role">FASHION EDITOR</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Dark Velvet jadi signature scent saya untuk meeting penting. Banyak klien yang bertanya pakai parfum apa. Packaging-nya juga sangat premium.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">RP</div>
+        <div>
+          <div class="testi-name">Raditya Prasetyo</div>
+          <div class="testi-role">CEO, TECH STARTUP</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Saya sudah coba banyak brand niche internasional, dan AROMATIQUE tidak kalah. Bahkan Blossom Dream lebih cocok di kulit orang Indonesia.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">MK</div>
+        <div>
+          <div class="testi-name">Maya Kusumawardani</div>
+          <div class="testi-role">BEAUTY INFLUENCER</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="newsletter-content">
+    <h2>Bergabung dengan <em>circle</em> kami</h2>
+    <p>Dapatkan akses eksklusif ke koleksi terbatas, penawaran khusus, dan undangan ke private event.</p>
+    <form class="newsletter-form" onsubmit="subscribe(event)">
+      <input type="email" placeholder="Alamat email Anda" required>
+      <button type="submit">Berlangganan</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">AROMA<span>·</span>TIQUE</div>
+      <p>Maison de parfum Indonesia yang menghadirkan keharuman eksklusif berkualitas dunia sejak 2015. Setiap botol adalah karya seni.</p>
+      <div class="footer-social">
+        <a href="#">Ig</a>
+        <a href="#">Fb</a>
+        <a href="#">Tw</a>
+        <a href="#">Tk</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Belanja</h4>
+      <ul>
+        <li><a href="#">Koleksi Wanita</a></li>
+        <li><a href="#">Koleksi Pria</a></li>
+        <li><a href="#">Unisex</a></li>
+        <li><a href="#">Exclusive Line</a></li>
+        <li><a href="#">Gift Set</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Layanan</h4>
+      <ul>
+        <li><a href="#">Konsultasi Scent</a></li>
+        <li><a href="#">Engraving</a></li>
+        <li><a href="#">Refill Program</a></li>
+        <li><a href="#">Corporate Gift</a></li>
+        <li><a href="#">Membership</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontak</h4>
+      <ul>
+        <li><a href="#">Plaza Indonesia Lt.3</a></li>
+        <li><a href="#">Jakarta Pusat 10310</a></li>
+        <li><a href="#">+62 21 5555 9090</a></li>
+        <li><a href="#">hello@aromatique.id</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2024 AROMATIQUE Maison. All rights reserved.</div>
+    <div>Privacy · Terms · Shipping</div>
+  </div>
+</footer>
+
+<!-- CART MODAL -->
+<div class="modal" id="cartModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeCart()">×</button>
+    <span class="section-tag">Keranjang Anda</span>
+    <h2>Shopping Bag</h2>
+    <div id="cartContent"></div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeCheckout()">×</button>
+    <span class="section-tag">Checkout</span>
+    <h2>Selesaikan Pesanan</h2>
+    <form id="checkoutForm" onsubmit="submitOrder(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" required placeholder="Sesuai KTP">
+        </div>
+        <div class="form-group">
+          <label>No. Telepon</label>
+          <input type="tel" required placeholder="08xxxxxxxxxx">
+        </div>
+        <div class="form-group full">
+          <label>Email</label>
+          <input type="email" required placeholder="email@domain.com">
+        </div>
+        <div class="form-group full">
+          <label>Alamat Lengkap</label>
+          <textarea rows="3" required placeholder="Jalan, nomor rumah, RT/RW"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Kota</label>
+          <input type="text" required placeholder="Jakarta">
+        </div>
+        <div class="form-group">
+          <label>Kode Pos</label>
+          <input type="text" required placeholder="12345">
+        </div>
+      </div>
+      <div class="form-group full">
+        <label>Metode Pembayaran</label>
+        <div class="payment-options">
+          <div class="pay-opt" data-pay="bca"><div class="pay-opt-icon">🏦</div><div class="pay-opt-name">BCA</div></div>
+          <div class="pay-opt" data-pay="mandiri"><div class="pay-opt-icon">🏛️</div><div class="pay-opt-name">Mandiri</div></div>
+          <div class="pay-opt" data-pay="gopay"><div class="pay-opt-icon">📱</div><div class="pay-opt-name">GoPay</div></div>
+          <div class="pay-opt" data-pay="ovo"><div class="pay-opt-icon">💜</div><div class="pay-opt-name">OVO</div></div>
+          <div class="pay-opt" data-pay="dana"><div class="pay-opt-icon">💙</div><div class="pay-opt-name">DANA</div></div>
+          <div class="pay-opt" data-pay="qris"><div class="pay-opt-icon">▣</div><div class="pay-opt-name">QRIS</div></div>
+          <div class="pay-opt" data-pay="cc"><div class="pay-opt-icon">💳</div><div class="pay-opt-name">Kartu Kredit</div></div>
+          <div class="pay-opt" data-pay="cod"><div class="pay-opt-icon">💵</div><div class="pay-opt-name">COD</div></div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:1rem">Bayar Sekarang →</button>
+      <div class="success" id="successBox">
+        <div class="success-icon">✓</div>
+        <h3 style="font-family:'Playfair Display',serif;margin-bottom:.5rem;color:#1a1512">Pesanan Berhasil!</h3>
+        <p style="color:var(--muted);font-size:.9rem">Terima kasih. Detail pesanan telah dikirim ke email Anda.</p>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- NOTIF -->
+<div class="notif" id="notif">
+  <div class="notif-icon">✓</div>
+  <div class="notif-text" id="notifText">Ditambahkan ke keranjang</div>
+</div>
+
+<script>
+// CATEGORIES DATA
+const categories = [
+  {
+    name: "Pewangi Ruangan",
+    desc: "Transformasi ruangan Anda dengan aroma yang menenangkan dan menyegarkan. Dari reed diffuser hingga room spray premium.",
+    color: "#d4a574",
+    icon: "room"
+  },
+  {
+    name: "Perawatan Diri",
+    desc: "Produk perawatan tubuh dengan aroma mewah. Body lotion, shower gel, dan hand cream dengan fragrance signature kami.",
+    color: "#e8c4a0",
+    icon: "self"
+  },
+  {
+    name: "Parfum",
+    desc: "Berbekal pengalaman lebih dari 250 tahun, Givaudan bekerja sama dengan para perfumer dunia untuk menciptakan wangi ikonik yang sesuai dengan selera Indonesia dan memberikan identitas unik bagi brand Anda.",
+    color: "#c9a961",
+    icon: "parfum",
+    featured: true
+  },
+  {
+    name: "Perawatan Rumah",
+    desc: "Laundry detergent, fabric softener, dan surface cleaner dengan aroma premium yang tahan lama di pakaian dan permukaan.",
+    color: "#a8c4a0",
+    icon: "home"
+  },
+  {
+    name: "Perawatan Pakaian",
+    desc: "Fabric mist dan wardrobe spray yang memberikan kesegaran tahan lama pada pakaian favorit Anda.",
+    color: "#b8a0c4",
+    icon: "clothes"
+  }
+];
+
+// CATALOG DATA
+const catalogItems = [
+  {
+    name: "Yummy Eclat Bn",
+    notes: "Spicy, Sweet, Woody",
+    price: 722861,
+    colors: ["#8b4513","#d2691e","#f4a460","#3d2817"],
+    elements: "apple"
+  },
+  {
+    name: "Glowing Spirit Bn",
+    notes: "Ambery, Floral, Woody",
+    price: 1234066,
+    colors: ["#c41e3a","#ff6b9d","#daa520","#8b0000"],
+    elements: "rose"
+  },
+  {
+    name: "Serene Leaf Bn",
+    notes: "Floral, Green, Sweet",
+    price: 767704,
+    colors: ["#2d5016","#6b8e23","#daa520","#8fbc8f"],
+    elements: "leaf"
+  },
+  {
+    name: "Beautiful Dusk Bn",
+    notes: "Ambery, Fruity, Woody",
+    price: 1072633,
+    colors: ["#9370db","#dda0dd","#f5deb3","#8b4513"],
+    elements: "orchid"
+  }
+];
+
+// PRODUCTS DATA
+const products = [
+  {id:1,name:"Midnight Rose",cat:"women",catLabel:"Eau de Parfum · Wanita",notes:"Mawar Taif · Oud · Vanilla",price:1250000,badge:"Best Seller",color:"#c9476b",accent:"#e8a0b5"},
+  {id:2,name:"Ocean Breeze",cat:"men",catLabel:"Eau de Toilette · Pria",notes:"Bergamot · Sea Salt · Cedarwood",price:980000,badge:"New",color:"#4a90a4",accent:"#8ec5d4"},
+  {id:3,name:"Dark Velvet",cat:"men",catLabel:"Parfum Intense · Pria",notes:"Leather · Tobacco · Amber",price:1450000,badge:"Exclusive",color:"#2d2419",accent:"#8b6914"},
+  {id:4,name:"Blossom Dream",cat:"women",catLabel:"Eau de Parfum · Wanita",notes:"Sakura · Peony · White Musk",price:1150000,badge:"",color:"#d4869c",accent:"#f5d5de"},
+  {id:5,name:"Fresh Citrus",cat:"unisex",catLabel:"Eau de Cologne · Unisex",notes:"Lemon · Neroli · Vetiver",price:850000,badge:"Popular",color:"#7a9b4e",accent:"#c5d89a"},
+  {id:6,name:"Golden Amber",cat:"exclusive",catLabel:"Parfum Exclusive · Unisex",notes:"Ambergris · Saffron · Sandalwood",price:1850000,badge:"Limited",color:"#b8860b",accent:"#e8d4a0"},
+  {id:7,name:"Noir Intense",cat:"men",catLabel:"Parfum Intense · Pria",notes:"Black Pepper · Incense · Patchouli",price:1350000,badge:"",color:"#1a1a1a",accent:"#555"},
+  {id:8,name:"Velvet Orchid",cat:"women",catLabel:"Eau de Parfum · Wanita",notes:"Orchid · Rum · Honey",price:1280000,badge:"New",color:"#6b3a6b",accent:"#c49ac4"}
+];
+
+let cart = [];
+let currentFilter = 'all';
+let catIndex = 2; // Start with Parfum (center)
+
+// CATEGORY SVGs
+function catSVG(icon, size){
+  const svgs = {
+    room: `<svg width="${size}" height="${size}" viewBox="0 0 200 200">
+      <rect x="60" y="80" width="80" height="90" rx="4" fill="#d4a574" opacity=".8"/>
+      <rect x="70" y="60" width="8" height="30" fill="#8b6914"/>
+      <rect x="85" y="50" width="6" height="40" fill="#8b6914"/>
+      <rect x="100" y="55" width="7" height="35" fill="#8b6914"/>
+      <rect x="115" y="65" width="6" height="25" fill="#8b6914"/>
+      <rect x="130" y="70" width="5" height="20" fill="#8b6914"/>
+      <circle cx="100" cy="130" r="25" fill="#f4a460" opacity=".6"/>
+      <path d="M85 120 Q100 100 115 120 Q100 140 85 120" fill="#d2691e" opacity=".5"/>
+    </svg>`,
+    self: `<svg width="${size}" height="${size}" viewBox="0 0 200 200">
+      <rect x="50" y="100" width="100" height="70" rx="8" fill="#e8c4a0" opacity=".9"/>
+      <rect x="70" y="80" width="60" height="25" rx="4" fill="#d4a574"/>
+      <rect x="85" y="70" width="30" height="15" rx="3" fill="#c9a961"/>
+      <circle cx="100" cy="135" r="15" fill="#fff" opacity=".3"/>
+      <path d="M70 120 Q100 110 130 120" stroke="#fff" stroke-width="2" fill="none" opacity=".4"/>
+    </svg>`,
+    parfum: `<svg width="${size}" height="${size}" viewBox="0 0 200 200">
+      <defs>
+        <linearGradient id="catParfum" x1="0%" y1="0%" x2="100%">
+          <stop offset="0%" stop-color="#c9a961" stop-opacity=".9"/>
+          <stop offset="50%" stop-color="#e8d4a0" stop-opacity=".8"/>
+          <stop offset="100%" stop-color="#8b6914" stop-opacity=".9"/>
+        </linearGradient>
+      </defs>
+      <rect x="75" y="30" width="50" height="40" rx="3" fill="#c9a961"/>
+      <rect x="85" y="70" width="30" height="15" fill="#8b6914"/>
+      <path d="M55 85 L145 85 L155 110 L155 180 Q155 190 145 190 L55 190 Q45 190 45 180 L45 110 Z" 
+            fill="url(#catParfum)" stroke="#e8d4a0" stroke-width="1"/>
+      <rect x="60" y="100" width="5" height="70" fill="#fff" opacity=".25"/>
+      <text x="100" y="150" text-anchor="middle" fill="#fff" font-family="Playfair Display" font-size="12" font-style="italic" opacity=".8">Aromatique</text>
+    </svg>`,
+    home: `<svg width="${size}" height="${size}" viewBox="0 0 200 200">
+      <rect x="60" y="70" width="80" height="100" rx="6" fill="#a8c4a0" opacity=".8"/>
+      <rect x="80" y="50" width="40" height="25" rx="4" fill="#6b8e23"/>
+      <circle cx="100" cy="120" r="20" fill="#fff" opacity=".3"/>
+      <path d="M85 115 Q100 105 115 115 Q100 130 85 115" fill="#8fbc8f" opacity=".6"/>
+    </svg>`,
+    clothes: `<svg width="${size}" height="${size}" viewBox="0 0 200 200">
+      <path d="M60 60 L80 50 L100 60 L120 50 L140 60 L140 160 L60 160 Z" fill="#b8a0c4" opacity=".8"/>
+      <rect x="90" y="40" width="20" height="15" rx="3" fill="#9370db"/>
+      <circle cx="100" cy="110" r="18" fill="#fff" opacity=".3"/>
+      <path d="M85 105 Q100 95 115 105 Q100 120 85 105" fill="#dda0dd" opacity=".5"/>
+    </svg>`
+  };
+  return svgs[icon] || svgs.parfum;
+}
+
+// CATALOG SVGs (ingredient flat lays)
+function catalogSVG(item, size){
+  const c = item.colors;
+  const svgs = {
+    apple: `<svg width="${size}" height="${size}" viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="140" fill="${c[2]}" opacity=".3"/>
+      <circle cx="100" cy="120" r="35" fill="${c[0]}" opacity=".9"/>
+      <circle cx="100" cy="120" r="35" fill="none" stroke="${c[3]}" stroke-width="2"/>
+      <path d="M100 85 Q105 75 110 85" stroke="${c[3]}" stroke-width="3" fill="none"/>
+      <circle cx="180" cy="100" r="30" fill="${c[1]}" opacity=".85"/>
+      <circle cx="180" cy="100" r="30" fill="none" stroke="${c[3]}" stroke-width="2"/>
+      <circle cx="130" cy="180" r="32" fill="${c[0]}" opacity=".9"/>
+      <circle cx="130" cy="180" r="32" fill="none" stroke="${c[3]}" stroke-width="2"/>
+      <circle cx="200" cy="170" r="28" fill="${c[1]}" opacity=".85"/>
+      <rect x="140" y="130" width="40" height="8" rx="4" fill="${c[3]}" opacity=".7" transform="rotate(30 160 134)"/>
+      <rect x="110" y="150" width="35" height="7" rx="3" fill="${c[3]}" opacity=".7" transform="rotate(-20 127 153)"/>
+      <circle cx="160" cy="200" r="15" fill="${c[2]}" opacity=".6"/>
+      <circle cx="90" cy="200" r="12" fill="${c[2]}" opacity=".5"/>
+    </svg>`,
+    rose: `<svg width="${size}" height="${size}" viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="140" fill="${c[3]}" opacity=".2"/>
+      <ellipse cx="100" cy="110" rx="25" ry="35" fill="${c[0]}" opacity=".9" transform="rotate(-30 100 110)"/>
+      <ellipse cx="100" cy="110" rx="25" ry="35" fill="none" stroke="${c[3]}" stroke-width="1.5" transform="rotate(-30 100 110)"/>
+      <ellipse cx="200" cy="100" rx="22" ry="32" fill="${c[1]}" opacity=".85" transform="rotate(20 200 100)"/>
+      <ellipse cx="200" cy="100" rx="22" ry="32" fill="none" stroke="${c[3]}" stroke-width="1.5" transform="rotate(20 200 100)"/>
+      <ellipse cx="150" cy="180" rx="28" ry="38" fill="${c[0]}" opacity=".9" transform="rotate(10 150 180)"/>
+      <ellipse cx="150" cy="180" rx="28" ry="38" fill="none" stroke="${c[3]}" stroke-width="1.5" transform="rotate(10 150 180)"/>
+      <ellipse cx="220" cy="180" rx="20" ry="28" fill="${c[1]}" opacity=".8" transform="rotate(-15 220 180)"/>
+      <path d="M130 140 Q150 130 170 140 Q160 160 140 160 Z" fill="${c[2]}" opacity=".7"/>
+      <path d="M120 200 L180 220" stroke="${c[3]}" stroke-width="3" opacity=".6"/>
+      <path d="M140 190 L190 210" stroke="${c[3]}" stroke-width="2.5" opacity=".5"/>
+      <circle cx="120" cy="150" r="8" fill="${c[2]}" opacity=".6"/>
+      <circle cx="180" cy="140" r="6" fill="${c[2]}" opacity=".5"/>
+    </svg>`,
+    leaf: `<svg width="${size}" height="${size}" viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="140" fill="${c[3]}" opacity=".25"/>
+      <ellipse cx="120" cy="120" rx="30" ry="15" fill="${c[0]}" opacity=".85" transform="rotate(-20 120 120)"/>
+      <ellipse cx="180" cy="110" rx="25" ry="12" fill="${c[1]}" opacity=".8" transform="rotate(30 180 110)"/>
+      <ellipse cx="150" cy="170" rx="35" ry="18" fill="${c[0]}" opacity=".85" transform="rotate(10 150 170)"/>
+      <ellipse cx="100" cy="170" rx="22" ry="11" fill="${c[1]}" opacity=".75" transform="rotate(-40 100 170)"/>
+      <ellipse cx="200" cy="160" rx="28" ry="14" fill="${c[0]}" opacity=".8" transform="rotate(25 200 160)"/>
+      <circle cx="140" cy="140" r="18" fill="${c[2]}" opacity=".7"/>
+      <circle cx="170" cy="140" r="15" fill="${c[2]}" opacity=".6"/>
+      <circle cx="130" cy="200" r="12" fill="${c[2]}" opacity=".65"/>
+      <circle cx="180" cy="190" r="14" fill="${c[2]}" opacity=".6"/>
+      <path d="M110 130 Q130 120 150 130" stroke="${c[3]}" stroke-width="2" fill="none" opacity=".5"/>
+      <path d="M160 150 Q180 140 200 150" stroke="${c[3]}" stroke-width="2" fill="none" opacity=".5"/>
+      <circle cx="160" cy="120" r="5" fill="${c[3]}" opacity=".4"/>
+      <circle cx="140" cy="190" r="6" fill="${c[3]}" opacity=".4"/>
+    </svg>`,
+    orchid: `<svg width="${size}" height="${size}" viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="140" fill="${c[2]}" opacity=".2"/>
+      <ellipse cx="100" cy="110" rx="28" ry="20" fill="${c[0]}" opacity=".85" transform="rotate(-25 100 110)"/>
+      <ellipse cx="100" cy="110" rx="28" ry="20" fill="none" stroke="${c[3]}" stroke-width="1.5" transform="rotate(-25 100 110)"/>
+      <ellipse cx="200" cy="100" rx="25" ry="18" fill="${c[1]}" opacity=".8" transform="rotate(20 200 100)"/>
+      <ellipse cx="200" cy="100" rx="25" ry="18" fill="none" stroke="${c[3]}" stroke-width="1.5" transform="rotate(20 200 100)"/>
+      <ellipse cx="150" cy="180" rx="30" ry="22" fill="${c[0]}" opacity=".85" transform="rotate(5 150 180)"/>
+      <ellipse cx="150" cy="180" rx="30" ry="22" fill="none" stroke="${c[3]}" stroke-width="1.5" transform="rotate(5 150 180)"/>
+      <ellipse cx="220" cy="170" rx="22" ry="16" fill="${c[1]}" opacity=".75" transform="rotate(-15 220 170)"/>
+      <circle cx="130" cy="140" r="20" fill="${c[2]}" opacity=".6"/>
+      <circle cx="170" cy="130" r="16" fill="${c[2]}" opacity=".55"/>
+      <path d="M120 160 Q150 150 180 160" stroke="${c[3]}" stroke-width="2.5" fill="none" opacity=".5"/>
+      <path d="M140 120 Q150 110 160 120" stroke="${c[3]}" stroke-width="2" fill="none" opacity=".4"/>
+      <circle cx="110" cy="180" r="8" fill="${c[3]}" opacity=".4"/>
+      <circle cx="190" cy="150" r="7" fill="${c[3]}" opacity=".35"/>
+    </svg>`
+  };
+  return svgs[item.elements] || svgs.apple;
+}
+
+// PRODUCT BOTTLE SVG
+function bottleSVG(p, size=200){
+  const h = size, w = size*0.6;
+  return `<svg width="${w}" height="${h}" viewBox="0 0 180 300" style="filter:drop-shadow(0 20px 30px rgba(0,0,0,.5))">
+    <defs>
+      <linearGradient id="g${p.id}" x1="0%" y1="0%" x2="100%">
+        <stop offset="0%" stop-color="${p.color}" stop-opacity=".95"/>
+        <stop offset="50%" stop-color="${p.accent}" stop-opacity=".7"/>
+        <stop offset="100%" stop-color="${p.color}" stop-opacity=".95"/>
+      </linearGradient>
+      <linearGradient id="cap${p.id}" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#e8d4a0"/>
+        <stop offset="100%" stop-color="#8b6914"/>
+      </linearGradient>
+    </defs>
+    <rect x="65" y="15" width="50" height="45" rx="3" fill="url(#cap${p.id})"/>
+    <rect x="68" y="20" width="44" height="3" fill="#fff" opacity=".4"/>
+    <rect x="75" y="60" width="30" height="12" fill="#1a1512"/>
+    <path d="M45 72 L135 72 L145 95 L145 275 Q145 290 130 290 L50 290 Q35 290 35 275 L35 95 Z" 
+          fill="url(#g${p.id})" stroke="${p.accent}" stroke-width=".5" opacity=".95"/>
+    <rect x="52" y="85" width="5" height="180" fill="#fff" opacity=".2" rx="2"/>
+    <rect x="125" y="100" width="3" height="150" fill="#fff" opacity=".1" rx="1"/>
+    <rect x="60" y="160" width="60" height="70" fill="#0d0a08" opacity=".6"/>
+    <rect x="60" y="160" width="60" height="70" fill="none" stroke="${p.accent}" stroke-width=".3"/>
+    <text x="90" y="185" text-anchor="middle" fill="${p.accent}" font-family="Playfair Display" font-size="10" font-style="italic">Aromatique</text>
+    <line x1="70" y1="195" x2="110" y2="195" stroke="${p.accent}" stroke-width=".3"/>
+    <text x="90" y="210" text-anchor="middle" fill="${p.accent}" font-family="Inter" font-size="5" letter-spacing="1">${p.name.toUpperCase()}</text>
+    <text x="90" y="222" text-anchor="middle" fill="${p.accent}" font-family="Inter" font-size="4" letter-spacing="1">100ML · EDP</text>
+  </svg>`;
+}
+
+// RENDER CATEGORIES
+function renderCategories(){
+  const track = document.getElementById('catTrack');
+  const dots = document.getElementById('catDots');
+  const desc = document.getElementById('catDesc');
+  
+  track.innerHTML = categories.map((c,i)=>`
+    <div class="cat-item ${i===catIndex?'center':''}" onclick="setCat(${i})">
+      <div class="cat-circle" style="background:linear-gradient(135deg,${c.color}33,${c.color}66)">
+        ${catSVG(c.icon, i===catIndex?220:140)}
+      </div>
+      <div class="cat-name">${c.name}</div>
+    </div>
+  `).join('');
+  
+  dots.innerHTML = categories.map((_,i)=>`
+    <div class="cat-dot ${i===catIndex?'active':''}" onclick="setCat(${i})"></div>
+  `).join('');
+  
+  desc.textContent = categories[catIndex].desc;
+}
+
+function setCat(i){
+  catIndex = i;
+  renderCategories();
+}
+
+function moveCat(dir){
+  catIndex = (catIndex + dir + categories.length) % categories.length;
+  renderCategories();
+}
+
+// RENDER CATALOG
+function renderCatalog(){
+  const grid = document.getElementById('catalogGrid');
+  grid.innerHTML = catalogItems.map(item=>`
+    <div class="catalog-card">
+      <div class="catalog-img">
+        ${catalogSVG(item, 280)}
+      </div>
+      <div class="catalog-info">
+        <h3 class="catalog-name">${item.name}</h3>
+        <p class="catalog-notes">${item.notes}</p>
+        <div class="catalog-price">
+          Rp${item.price.toLocaleString('id-ID')}
+          <small>(ex. PPN/kg)</small>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// RENDER PRODUCTS
+function renderProducts(){
+  const grid = document.getElementById('productsGrid');
+  const filtered = currentFilter==='all' ? products : products.filter(p=>p.cat===currentFilter);
+  grid.innerHTML = filtered.map(p=>`
+    <div class="product">
+      <div class="product-img">
+        ${p.badge?`<div class="product-badge">${p.badge}</div>`:''}
+        <div class="product-wish">♡</div>
+        ${bottleSVG(p, 260)}
+        <div class="product-quick" onclick="addToCart(${p.id})">+ Tambah ke Keranjang</div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">${p.catLabel}</div>
+        <h3 class="product-name">${p.name}</h3>
+        <p class="product-notes">${p.notes}</p>
+        <div class="product-foot">
+          <div class="product-price"><small>IDR</small>${p.price.toLocaleString('id-ID')}</div>
+          <button class="add-cart" onclick="addToCart(${p.id})">+ Add</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderProducts();
+  };
+});
+
+function addToCart(id){
+  const p = products.find(x=>x.id===id);
+  const ex = cart.find(x=>x.id===id);
+  if(ex) ex.qty++;
+  else cart.push({...p, qty:1});
+  updateBadge();
+  showNotif(`${p.name} ditambahkan ke keranjang`);
+}
+
+function updateBadge(){
+  const total = cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartBadge').textContent = total;
+}
+
+function showNotif(msg){
+  const n = document.getElementById('notif');
+  document.getElementById('notifText').textContent = msg;
+  n.classList.add('show');
+  setTimeout(()=>n.classList.remove('show'),2500);
+}
+
+function openCart(){
+  renderCart();
+  document.getElementById('cartModal').classList.add('active');
+}
+function closeCart(){document.getElementById('cartModal').classList.remove('active')}
+function openCheckout(){
+  if(!cart.length){showNotif('Keranjang masih kosong');return}
+  closeCart();
+  document.getElementById('checkoutModal').classList.add('active');
+}
+function closeCheckout(){document.getElementById('checkoutModal').classList.remove('active')}
+
+function renderCart(){
+  const c = document.getElementById('cartContent');
+  if(!cart.length){
+    c.innerHTML = `<div class="empty-cart">
+      <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <p>Keranjang Anda masih kosong</p>
+      <button class="btn btn-dark" style="margin-top:1.5rem" onclick="closeCart()">Lanjut Belanja</button>
+    </div>`;
+    return;
+  }
+  const sub = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const ship = 25000;
+  const total = sub+ship;
+  c.innerHTML = `
+    <div class="cart-list">
+      ${cart.map(i=>`
+        <div class="cart-item">
+          <div class="cart-item-img">${bottleSVG(i,70)}</div>
+          <div>
+            <div class="cart-item-name">${i.name}</div>
+            <div class="cart-item-meta">${i.catLabel}</div>
+            <div class="cart-item-ctrl">
+              <button class="qty-btn" onclick="changeQty(${i.id},-1)">−</button>
+              <span>${i.qty}</span>
+              <button class="qty-btn" onclick="changeQty(${i.id},1)">+</button>
+            </div>
+          </div>
+          <div>
+            <div class="cart-item-price">IDR ${(i.price*i.qty).toLocaleString('id-ID')}</div>
+            <button class="cart-item-remove" onclick="removeItem(${i.id})">Hapus</button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="cart-summary">
+      <div class="cart-row"><span>Subtotal</span><span>IDR ${sub.toLocaleString('id-ID')}</span></div>
+      <div class="cart-row"><span>Pengiriman</span><span>IDR ${ship.toLocaleString('id-ID')}</span></div>
+      <div class="cart-row total"><span>Total</span><span>IDR ${total.toLocaleString('id-ID')}</span></div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="openCheckout()">Lanjut ke Checkout →</button>
+  `;
+}
+
+function changeQty(id,d){
+  const i = cart.find(x=>x.id===id);
+  i.qty+=d;
+  if(i.qty<=0) cart = cart.filter(x=>x.id!==id);
+  updateBadge();
+  renderCart();
+}
+function removeItem(id){
+  cart = cart.filter(x=>x.id!==id);
+  updateBadge();
+  renderCart();
+}
+
+document.querySelectorAll('.pay-opt').forEach(opt=>{
+  opt.onclick=()=>{
+    document.querySelectorAll('.pay-opt').forEach(o=>o.classList.remove('selected'));
+    opt.classList.add('selected');
+  };
+});
+
+function submitOrder(e){
+  e.preventDefault();
+  const selected = document.querySelector('.pay-opt.selected');
+  if(!selected){showNotif('Pilih metode pembayaran');return}
+  document.getElementById('successBox').classList.add('show');
+  setTimeout(()=>{
+    cart = [];
+    updateBadge();
+    closeCheckout();
+    document.getElementById('successBox').classList.remove('show');
+    e.target.reset();
+    document.querySelectorAll('.pay-opt').forEach(o=>o.classList.remove('selected'));
+  },3000);
+}
+
+function subscribe(e){
+  e.preventDefault();
+  showNotif('Terima kasih telah berlangganan!');
+  e.target.reset();
+}
+
+renderCategories();
+renderCatalog();
+renderProducts();
+</script>
+</body>
+</html>
