@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AROMATIQUE Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6366f1;
+  --primary-dark:#4f46e5;
+  --primary-light:#eef2ff;
+  --accent:#f59e0b;
+  --success:#10b981;
+  --danger:#ef4444;
+  --warning:#f59e0b;
+  --info:#3b82f6;
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --border:#e2e8f0;
+  --text:#1e293b;
+  --text-muted:#64748b;
+  --text-light:#94a3b8;
+  --sidebar-w:260px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+.display{font-family:'Playfair Display',serif}
+
+/* LAYOUT */
+.app{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar-w);
+  background:var(--card);
+  border-right:1px solid var(--border);
+  position:fixed;
+  top:0;left:0;bottom:0;
+  overflow-y:auto;
+  z-index:100;
+  transition:.3s;
+}
+.sidebar-head{
+  padding:1.5rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:.8rem;
+}
+.sidebar-logo{
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-weight:700;font-size:1.1rem;
+}
+.sidebar-brand{
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;font-weight:600;
+  color:var(--text);
+}
+.sidebar-brand small{
+  display:block;font-family:'Inter',sans-serif;
+  font-size:.7rem;color:var(--text-muted);font-weight:400;
+}
+.sidebar-menu{padding:1rem 0}
+.menu-label{
+  padding:0 1.5rem;font-size:.7rem;
+  text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--text-light);font-weight:600;
+  margin:1.2rem 0 .6rem;
+}
+.menu-item{
+  display:flex;align-items:center;gap:.9rem;
+  padding:.85rem 1.5rem;
+  color:var(--text-muted);
+  cursor:pointer;
+  transition:.2s;
+  border-left:3px solid transparent;
+  font-size:.9rem;font-weight:500;
+}
+.menu-item:hover{
+  background:var(--primary-light);
+  color:var(--primary);
+}
+.menu-item.active{
+  background:var(--primary-light);
+  color:var(--primary);
+  border-left-color:var(--primary);
+  font-weight:600;
+}
+.menu-item .icon{
+  width:20px;text-align:center;font-size:1.05rem;
+}
+.menu-item .badge{
+  margin-left:auto;
+  background:var(--danger);
+  color:white;
+  font-size:.65rem;
+  padding:2px 7px;
+  border-radius:10px;
+  font-weight:600;
+}
+
+/* MAIN */
+.main{
+  flex:1;
+  margin-left:var(--sidebar-w);
+  min-height:100vh;
+}
+
+/* TOPBAR */
+.topbar{
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+  padding:1rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:50;
+}
+.topbar-left{display:flex;align-items:center;gap:1rem}
+.menu-toggle{
+  display:none;
+  background:none;border:none;
+  font-size:1.3rem;cursor:pointer;color:var(--text);
+}
+.search-box{
+  display:flex;align-items:center;gap:.6rem;
+  background:var(--bg);
+  padding:.6rem 1rem;
+  border-radius:8px;
+  border:1px solid var(--border);
+  min-width:320px;
+}
+.search-box input{
+  border:none;background:none;
+  outline:none;font-size:.9rem;
+  color:var(--text);flex:1;
+}
+.topbar-right{display:flex;align-items:center;gap:1rem}
+.topbar-btn{
+  width:40px;height:40px;
+  border-radius:8px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  color:var(--text-muted);
+  transition:.2s;
+}
+.topbar-btn:hover{background:var(--primary-light);color:var(--primary)}
+.topbar-btn .dot{
+  position:absolute;top:8px;right:8px;
+  width:8px;height:8px;
+  background:var(--danger);
+  border-radius:50%;
+  border:2px solid var(--card);
+}
+.user-profile{
+  display:flex;align-items:center;gap:.8rem;
+  padding:.5rem;
+  border-radius:8px;
+  cursor:pointer;
+  transition:.2s;
+}
+.user-profile:hover{background:var(--bg)}
+.user-avatar{
+  width:38px;height:38px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-weight:600;font-size:.9rem;
+}
+.user-info{line-height:1.2}
+.user-name{font-size:.88rem;font-weight:600;color:var(--text)}
+.user-role{font-size:.72rem;color:var(--text-muted)}
+
+/* CONTENT */
+.content{padding:2rem}
+.page{display:none}
+.page.active{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.page-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:2rem;flex-wrap:wrap;gap:1rem;
+}
+.page-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;font-weight:600;
+  color:var(--text);
+}
+.page-sub{font-size:.9rem;color:var(--text-muted);margin-top:.3rem}
+
+/* BUTTONS */
+.btn{
+  padding:.7rem 1.3rem;
+  border:none;border-radius:8px;
+  font-size:.85rem;font-weight:600;
+  cursor:pointer;
+  display:inline-flex;align-items:center;gap:.5rem;
+  transition:.2s;
+  font-family:inherit;
+}
+.btn-primary{background:var(--primary);color:white}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.btn-success{background:var(--success);color:white}
+.btn-success:hover{background:#059669}
+.btn-danger{background:var(--danger);color:white}
+.btn-danger:hover{background:#dc2626}
+.btn-ghost{background:var(--bg);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+.btn-sm{padding:.45rem .9rem;font-size:.78rem}
+
+/* STATS */
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.2rem;
+  margin-bottom:2rem;
+}
+.stat-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.5rem;
+  position:relative;
+  overflow:hidden;
+  transition:.2s;
+}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,0,0,.05)}
+.stat-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:3px;
+}
+.stat-card.purple::before{background:var(--primary)}
+.stat-card.green::before{background:var(--success)}
+.stat-card.orange::before{background:var(--accent)}
+.stat-card.blue::before{background:var(--info)}
+.stat-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.stat-icon{
+  width:44px;height:44px;
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;
+}
+.stat-card.purple .stat-icon{background:var(--primary-light);color:var(--primary)}
+.stat-card.green .stat-icon{background:#d1fae5;color:var(--success)}
+.stat-card.orange .stat-icon{background:#fef3c7;color:var(--accent)}
+.stat-card.blue .stat-icon{background:#dbeafe;color:var(--info)}
+.stat-change{
+  font-size:.72rem;font-weight:600;
+  padding:3px 8px;border-radius:20px;
+}
+.stat-change.up{background:#d1fae5;color:var(--success)}
+.stat-change.down{background:#fee2e2;color:var(--danger)}
+.stat-value{
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;font-weight:600;
+  color:var(--text);margin-bottom:.3rem;
+}
+.stat-label{font-size:.82rem;color:var(--text-muted)}
+
+/* CARDS */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.5rem;
+  margin-bottom:1.5rem;
+}
+.card-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:1.2rem;flex-wrap:wrap;gap:1rem;
+}
+.card-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem;font-weight:600;
+  color:var(--text);
+}
+.card-sub{font-size:.82rem;color:var(--text-muted);margin-top:.2rem}
+
+.grid-2{display:grid;grid-template-columns:2fr 1fr;gap:1.5rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1024px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* CHART */
+.chart-box{position:relative;height:300px}
+
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{
+  padding:.9rem 1rem;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  font-size:.88rem;
+}
+th{
+  font-size:.75rem;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  color:var(--text-muted);
+  font-weight:600;
+  background:var(--bg);
+}
+tr:hover{background:var(--bg)}
+.product-cell{display:flex;align-items:center;gap:.8rem}
+.product-thumb{
+  width:42px;height:42px;
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+}
+.product-name{font-weight:600;color:var(--text)}
+.product-cat{font-size:.75rem;color:var(--text-muted)}
+
+.badge-status{
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:.72rem;
+  font-weight:600;
+  display:inline-block;
+}
+.badge-success{background:#d1fae5;color:#065f46}
+.badge-warning{background:#fef3c7;color:#92400e}
+.badge-danger{background:#fee2e2;color:#991b1b}
+.badge-info{background:#dbeafe;color:#1e40af}
+.badge-purple{background:var(--primary-light);color:var(--primary-dark)}
+
+.action-btns{display:flex;gap:.4rem}
+.action-btn{
+  width:32px;height:32px;
+  border-radius:6px;
+  border:1px solid var(--border);
+  background:white;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:.2s;
+  font-size:.85rem;
+}
+.action-btn:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+.action-btn.danger:hover{background:#fee2e2;color:var(--danger);border-color:var(--danger)}
+
+/* FILTER BAR */
+.filter-bar{
+  display:flex;gap:.8rem;flex-wrap:wrap;
+  margin-bottom:1.5rem;
+}
+.filter-input,.filter-select{
+  padding:.65rem 1rem;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:white;
+  font-size:.88rem;
+  font-family:inherit;
+  color:var(--text);
+  outline:none;
+  transition:.2s;
+}
+.filter-input:focus,.filter-select:focus{border-color:var(--primary)}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(15,23,42,.6);
+  backdrop-filter:blur(4px);
+  z-index:1000;
+  align-items:center;justify-content:center;
+  padding:1rem;
+}
+.modal.active{display:flex}
+.modal-box{
+  background:white;
+  border-radius:14px;
+  max-width:560px;width:100%;
+  max-height:90vh;overflow-y:auto;
+  animation:slideUp .3s ease;
+}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-head{
+  padding:1.5rem;
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.modal-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;font-weight:600;
+}
+.modal-close{
+  width:32px;height:32px;
+  border-radius:8px;
+  border:none;background:var(--bg);
+  cursor:pointer;font-size:1.2rem;
+  color:var(--text-muted);
+  transition:.2s;
+}
+.modal-close:hover{background:#fee2e2;color:var(--danger)}
+.modal-body{padding:1.5rem}
+.modal-foot{
+  padding:1.2rem 1.5rem;
+  border-top:1px solid var(--border);
+  display:flex;justify-content:flex-end;gap:.6rem;
+}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1rem}
+.form-group.full{grid-column:1/-1}
+.form-group label{
+  display:block;font-size:.82rem;
+  font-weight:600;color:var(--text);
+  margin-bottom:.4rem;
+}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;
+  padding:.7rem .9rem;
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-size:.88rem;
+  font-family:inherit;
+  color:var(--text);
+  background:white;
+  outline:none;
+  transition:.2s;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px var(--primary-light);
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:2rem;right:2rem;
+  background:white;
+  border-left:4px solid var(--success);
+  padding:1rem 1.3rem;
+  border-radius:8px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  display:flex;align-items:center;gap:.8rem;
+  transform:translateX(120%);
+  transition:.3s;
+  z-index:2000;
+  min-width:280px;
+}
+.toast.show{transform:translateX(0)}
+.toast.error{border-left-color:var(--danger)}
+.toast-icon{font-size:1.3rem}
+.toast-text{font-size:.88rem;font-weight:500}
+
+/* REPORT CARDS */
+.report-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1rem;margin-bottom:1.5rem;
+}
+.report-card{
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:white;
+  padding:1.3rem;
+  border-radius:12px;
+}
+.report-card.green{background:linear-gradient(135deg,var(--success),#059669)}
+.report-card.orange{background:linear-gradient(135deg,var(--accent),#d97706)}
+.report-card.blue{background:linear-gradient(135deg,var(--info),#1d4ed8)}
+.report-label{font-size:.78rem;opacity:.9;margin-bottom:.5rem}
+.report-value{
+  font-family:'Playfair Display',serif;
+  font-size:1.6rem;font-weight:600;
+}
+.report-sub{font-size:.75rem;opacity:.85;margin-top:.3rem}
+
+/* PROGRESS */
+.progress-bar{
+  height:6px;
+  background:var(--bg);
+  border-radius:3px;
+  overflow:hidden;
+  margin-top:.5rem;
+}
+.progress-fill{
+  height:100%;
+  background:var(--primary);
+  border-radius:3px;
+  transition:width .5s;
+}
+
+/* LIST */
+.list-item{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 0;
+  border-bottom:1px solid var(--border);
+}
+.list-item:last-child{border-bottom:none}
+.list-avatar{
+  width:40px;height:40px;
+  border-radius:50%;
+  background:var(--primary-light);
+  color:var(--primary);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:600;font-size:.85rem;
+  flex-shrink:0;
+}
+.list-info{flex:1;min-width:0}
+.list-name{font-weight:600;font-size:.88rem;color:var(--text)}
+.list-meta{font-size:.78rem;color:var(--text-muted)}
+.list-value{font-weight:600;color:var(--text);font-size:.9rem}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .menu-toggle{display:block}
+  .search-box{min-width:auto;flex:1}
+  .user-info{display:none}
+  .content{padding:1rem}
+  .form-grid{grid-template-columns:1fr}
+  .page-head{flex-direction:column;align-items:flex-start}
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-light)}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-logo">A</div>
+      <div class="sidebar-brand">
+        AROMATIQUE
+        <small>Admin Panel</small>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="menu-label">Menu Utama</div>
+      <div class="menu-item active" data-page="dashboard"><span class="icon">📊</span>Dashboard</div>
+      <div class="menu-item" data-page="products"><span class="icon"></span>Produk & Stok<span class="badge">24</span></div>
+      <div class="menu-item" data-page="orders"><span class="icon">📦</span>Pesanan<span class="badge">8</span></div>
+      <div class="menu-item" data-page="customers"><span class="icon">👥</span>Pelanggan</div>
+      
+      <div class="menu-label">Keuangan</div>
+      <div class="menu-item" data-page="finance"><span class="icon">💰</span>Laporan Keuangan</div>
+      <div class="menu-item" data-page="transactions"><span class="icon">💳</span>Transaksi</div>
+      
+      <div class="menu-label">Analitik</div>
+      <div class="menu-item" data-page="reports"><span class="icon">📈</span>Laporan & Analitik</div>
+      <div class="menu-item" data-page="inventory"><span class="icon">📋</span>Stok Opname</div>
+      
+      <div class="menu-label">Sistem</div>
+      <div class="menu-item" data-page="settings"><span class="icon">⚙️</span>Pengaturan</div>
+      <div class="menu-item" data-page="profile"><span class="icon">👤</span>Profil Admin</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" placeholder="Cari produk, pesanan, pelanggan...">
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn">
+          🔔
+          <span class="dot"></span>
+        </button>
+        <button class="topbar-btn">✉️</button>
+        <div class="user-profile">
+          <div class="user-avatar">AD</div>
+          <div class="user-info">
+            <div class="user-name">Admin</div>
+            <div class="user-role">Super Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- DASHBOARD PAGE -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Dashboard Overview</h1>
+            <div class="page-sub">Selamat datang kembali! Berikut ringkasan bisnis Anda hari ini.</div>
+          </div>
+          <div style="display:flex;gap:.6rem">
+            <button class="btn btn-ghost">📅 7 Hari Terakhir</button>
+            <button class="btn btn-primary">+ Laporan Baru</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card purple">
+            <div class="stat-top">
+              <div class="stat-icon">💰</div>
+              <span class="stat-change up">↑ 12.5%</span>
+            </div>
+            <div class="stat-value">Rp 284.5jt</div>
+            <div class="stat-label">Total Pendapatan</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-top">
+              <div class="stat-icon"></div>
+              <span class="stat-change up">↑ 8.2%</span>
+            </div>
+            <div class="stat-value">1,284</div>
+            <div class="stat-label">Total Pesanan</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-top">
+              <div class="stat-icon">👥</div>
+              <span class="stat-change up">↑ 15.3%</span>
+            </div>
+            <div class="stat-value">3,847</div>
+            <div class="stat-label">Pelanggan Aktif</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-top">
+              <div class="stat-icon">🧴</div>
+              <span class="stat-change down">↓ 3.1%</span>
+            </div>
+            <div class="stat-value">24</div>
+            <div class="stat-label">Produk Tersedia</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Grafik Penjualan</div>
+                <div class="card-sub">Pendapatan 7 hari terakhir</div>
+              </div>
+              <div style="display:flex;gap:.5rem">
+                <button class="btn btn-sm btn-ghost">Minggu</button>
+                <button class="btn btn-sm btn-primary">Bulan</button>
+              </div>
+            </div>
+            <div class="chart-box"><canvas id="salesChart"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Kategori Terlaris</div>
+                <div class="card-sub">Distribusi penjualan</div>
+              </div>
+            </div>
+            <div class="chart-box"><canvas id="categoryChart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Pesanan Terbaru</div>
+                <div class="card-sub">5 transaksi terakhir</div>
+              </div>
+              <button class="btn btn-sm btn-ghost" onclick="showPage('orders')">Lihat Semua</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ID</th><th>Pelanggan</th><th>Total</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>#ORD-2847</td><td>Sabrina A.</td><td>Rp 1.250.000</td><td><span class="badge-status badge-success">Selesai</span></td></tr>
+                  <tr><td>#ORD-2846</td><td>Raditya P.</td><td>Rp 2.450.000</td><td><span class="badge-status badge-warning">Diproses</span></td></tr>
+                  <tr><td>#ORD-2845</td><td>Maya K.</td><td>Rp 980.000</td><td><span class="badge-status badge-info">Dikirim</span></td></tr>
+                  <tr><td>#ORD-2844</td><td>Andi W.</td><td>Rp 1.850.000</td><td><span class="badge-status badge-success">Selesai</span></td></tr>
+                  <tr><td>#ORD-2843</td><td>Dewi S.</td><td>Rp 750.000</td><td><span class="badge-status badge-danger">Dibatalkan</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Produk Terlaris</div>
+                <div class="card-sub">Bulan ini</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-avatar" style="background:#fce7f3;color:#be185d">MR</div>
+              <div class="list-info">
+                <div class="list-name">Midnight Rose</div>
+                <div class="list-meta">142 terjual</div>
+              </div>
+              <div class="list-value">Rp 177.5jt</div>
+            </div>
+            <div class="list-item">
+              <div class="list-avatar" style="background:#dbeafe;color:#1d4ed8">OB</div>
+              <div class="list-info">
+                <div class="list-name">Ocean Breeze</div>
+                <div class="list-meta">128 terjual</div>
+              </div>
+              <div class="list-value">Rp 125.4jt</div>
+            </div>
+            <div class="list-item">
+              <div class="list-avatar" style="background:#fef3c7;color:#92400e">DV</div>
+              <div class="list-info">
+                <div class="list-name">Dark Velvet</div>
+                <div class="list-meta">96 terjual</div>
+              </div>
+              <div class="list-value">Rp 139.2jt</div>
+            </div>
+            <div class="list-item">
+              <div class="list-avatar" style="background:#d1fae5;color:#065f46">GA</div>
+              <div class="list-info">
+                <div class="list-name">Golden Amber</div>
+                <div class="list-meta">74 terjual</div>
+              </div>
+              <div class="list-value">Rp 136.9jt</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS PAGE -->
+      <div class="page" id="page-products">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Manajemen Produk & Stok</h1>
+            <div class="page-sub">Kelola katalog produk dan stok tersedia</div>
+          </div>
+          <button class="btn btn-primary" onclick="openModal('productModal')">+ Tambah Produk</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card purple">
+            <div class="stat-top"><div class="stat-icon">🧴</div></div>
+            <div class="stat-value">24</div>
+            <div class="stat-label">Total Produk</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-top"><div class="stat-icon">✅</div></div>
+            <div class="stat-value">18</div>
+            <div class="stat-label">Stok Tersedia</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-top"><div class="stat-icon">⚠️</div></div>
+            <div class="stat-value">4</div>
+            <div class="stat-label">Stok Menipis</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-top"><div class="stat-icon">🚫</div></div>
+            <div class="stat-value">2</div>
+            <div class="stat-label">Habis</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="filter-bar">
+            <input type="text" class="filter-input" placeholder=" Cari produk..." style="flex:1;min-width:200px">
+            <select class="filter-select">
+              <option>Semua Kategori</option>
+              <option>Wanita</option>
+              <option>Pria</option>
+              <option>Unisex</option>
+              <option>Exclusive</option>
+            </select>
+            <select class="filter-select">
+              <option>Semua Status</option>
+              <option>Tersedia</option>
+              <option>Menipis</option>
+              <option>Habis</option>
+            </select>
+            <button class="btn btn-ghost">🔄 Reset</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produk</th>
+                  <th>SKU</th>
+                  <th>Kategori</th>
+                  <th>Harga</th>
+                  <th>Stok</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="productTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDERS PAGE -->
+      <div class="page" id="page-orders">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Manajemen Pesanan</h1>
+            <div class="page-sub">Kelola semua pesanan pelanggan</div>
+          </div>
+          <button class="btn btn-primary">+ Pesanan Manual</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card purple">
+            <div class="stat-top"><div class="stat-icon"></div></div>
+            <div class="stat-value">1,284</div>
+            <div class="stat-label">Total Pesanan</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-top"><div class="stat-icon">⏳</div></div>
+            <div class="stat-value">47</div>
+            <div class="stat-label">Menunggu</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-top"><div class="stat-icon">🚚</div></div>
+            <div class="stat-value">23</div>
+            <div class="stat-label">Dikirim</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-top"><div class="stat-icon">✓</div></div>
+            <div class="stat-value">1,198</div>
+            <div class="stat-label">Selesai</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="filter-bar">
+            <input type="text" class="filter-input" placeholder="🔍 Cari ID atau nama..." style="flex:1">
+            <select class="filter-select">
+              <option>Semua Status</option>
+              <option>Menunggu</option>
+              <option>Diproses</option>
+              <option>Dikirim</option>
+              <option>Selesai</option>
+              <option>Dibatalkan</option>
+            </select>
+            <input type="date" class="filter-input">
+            <button class="btn btn-ghost"> Export</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID Pesanan</th>
+                  <th>Pelanggan</th>
+                  <th>Tanggal</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Pembayaran</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="orderTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CUSTOMERS PAGE -->
+      <div class="page" id="page-customers">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Data Pelanggan</h1>
+            <div class="page-sub">Kelola database pelanggan Anda</div>
+          </div>
+          <button class="btn btn-primary">+ Tambah Pelanggan</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card purple">
+            <div class="stat-top"><div class="stat-icon"></div></div>
+            <div class="stat-value">3,847</div>
+            <div class="stat-label">Total Pelanggan</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-top"><div class="stat-icon">⭐</div></div>
+            <div class="stat-value">482</div>
+            <div class="stat-label">VIP Member</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-top"><div class="stat-icon">🆕</div></div>
+            <div class="stat-value">128</div>
+            <div class="stat-label">Baru (Bulan Ini)</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-top"><div class="stat-icon">💎</div></div>
+            <div class="stat-value">Rp 2.8jt</div>
+            <div class="stat-label">Rata-rata Belanja</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="filter-bar">
+            <input type="text" class="filter-input" placeholder=" Cari nama atau email..." style="flex:1">
+            <select class="filter-select">
+              <option>Semua Tier</option>
+              <option>VIP</option>
+              <option>Regular</option>
+              <option>New</option>
+            </select>
+            <button class="btn btn-ghost">📥 Export CSV</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Pelanggan</th>
+                  <th>Email</th>
+                  <th>Telepon</th>
+                  <th>Total Order</th>
+                  <th>Total Belanja</th>
+                  <th>Tier</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="customerTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- FINANCE PAGE -->
+      <div class="page" id="page-finance">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Laporan Keuangan</h1>
+            <div class="page-sub">Ringkasan keuangan bisnis Anda</div>
+          </div>
+          <div style="display:flex;gap:.6rem">
+            <select class="filter-select">
+              <option>Oktober 2024</option>
+              <option>September 2024</option>
+              <option>Agustus 2024</option>
+            </select>
+            <button class="btn btn-primary">📥 Download PDF</button>
+          </div>
+        </div>
+
+        <div class="report-cards">
+          <div class="report-card">
+            <div class="report-label">Total Pendapatan</div>
+            <div class="report-value">Rp 284.5jt</div>
+            <div class="report-sub">↑ 12.5% dari bulan lalu</div>
+          </div>
+          <div class="report-card green">
+            <div class="report-label">Laba Bersih</div>
+            <div class="report-value">Rp 142.8jt</div>
+            <div class="report-sub">Margin 50.2%</div>
+          </div>
+          <div class="report-card orange">
+            <div class="report-label">Total Pengeluaran</div>
+            <div class="report-value">Rp 141.7jt</div>
+            <div class="report-sub">Operasional + HPP</div>
+          </div>
+          <div class="report-card blue">
+            <div class="report-label">Piutang</div>
+            <div class="report-value">Rp 18.4jt</div>
+            <div class="report-sub">12 invoice pending</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Arus Kas</div>
+                <div class="card-sub">6 bulan terakhir</div>
+              </div>
+            </div>
+            <div class="chart-box"><canvas id="cashflowChart"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Pengeluaran per Kategori</div>
+                <div class="card-sub">Bulan ini</div>
+              </div>
+            </div>
+            <div class="chart-box"><canvas id="expenseChart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Ringkasan Transaksi</div>
+              <div class="card-sub">10 transaksi terakhir</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Deskripsi</th>
+                  <th>Kategori</th>
+                  <th>Metode</th>
+                  <th>Jumlah</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>28 Okt 2024</td><td>Penjualan #ORD-2847</td><td><span class="badge-status badge-success">Pendapatan</span></td><td>BCA Transfer</td><td style="color:var(--success);font-weight:600">+Rp 1.250.000</td><td><span class="badge-status badge-success">Sukses</span></td></tr>
+                <tr><td>28 Okt 2024</td><td>Pembelian Bahan Baku</td><td><span class="badge-status badge-danger">HPP</span></td><td>Mandiri</td><td style="color:var(--danger);font-weight:600">-Rp 15.000.000</td><td><span class="badge-status badge-success">Sukses</span></td></tr>
+                <tr><td>27 Okt 2024</td><td>Penjualan #ORD-2845</td><td><span class="badge-status badge-success">Pendapatan</span></td><td>GoPay</td><td style="color:var(--success);font-weight:600">+Rp 980.000</td><td><span class="badge-status badge-success">Sukses</span></td></tr>
+                <tr><td>27 Okt 2024</td><td>Sewa Toko Bulan Nov</td><td><span class="badge-status badge-warning">Operasional</span></td><td>BCA</td><td style="color:var(--danger);font-weight:600">-Rp 25.000.000</td><td><span class="badge-status badge-warning">Pending</span></td></tr>
+                <tr><td>26 Okt 2024</td><td>Gaji Karyawan</td><td><span class="badge-status badge-warning">Operasional</span></td><td>BCA</td><td style="color:var(--danger);font-weight:600">-Rp 45.000.000</td><td><span class="badge-status badge-success">Sukses</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRANSACTIONS PAGE -->
+      <div class="page" id="page-transactions">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Riwayat Transaksi</h1>
+            <div class="page-sub">Semua transaksi keuangan tercatat</div>
+          </div>
+          <button class="btn btn-primary">+ Transaksi Manual</button>
+        </div>
+        <div class="card">
+          <div class="filter-bar">
+            <input type="text" class="filter-input" placeholder="🔍 Cari transaksi..." style="flex:1">
+            <select class="filter-select"><option>Semua Tipe</option><option>Masuk</option><option>Keluar</option></select>
+            <select class="filter-select"><option>Semua Metode</option><option>Transfer</option><option>E-Wallet</option><option>Cash</option></select>
+            <input type="date" class="filter-input">
+            <button class="btn btn-ghost">📥 Export</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>No. Transaksi</th><th>Tanggal</th><th>Deskripsi</th><th>Tipe</th><th>Metode</th><th>Jumlah</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>#TRX-9847</td><td>28 Okt 2024</td><td>Pembayaran Order #2847</td><td><span class="badge-status badge-success">Masuk</span></td><td>BCA</td><td style="color:var(--success);font-weight:600">+Rp 1.250.000</td><td><span class="badge-status badge-success">Sukses</span></td></tr>
+                <tr><td>#TRX-9846</td><td>28 Okt 2024</td><td>Pembelian Bahan</td><td><span class="badge-status badge-danger">Keluar</span></td><td>Mandiri</td><td style="color:var(--danger);font-weight:600">-Rp 15.000.000</td><td><span class="badge-status badge-success">Sukses</span></td></tr>
+                <tr><td>#TRX-9845</td><td>27 Okt 2024</td><td>Pembayaran Order #2845</td><td><span class="badge-status badge-success">Masuk</span></td><td>GoPay</td><td style="color:var(--success);font-weight:600">+Rp 980.000</td><td><span class="badge-status badge-success">Sukses</span></td></tr>
+                <tr><td>#TRX-9844</td><td>27 Okt 2024</td><td>Sewa Toko</td><td><span class="badge-status badge-danger">Keluar</span></td><td>BCA</td><td style="color:var(--danger);font-weight:600">-Rp 25.000.000</td><td><span class="badge-status badge-warning">Pending</span></td></tr>
+                <tr><td>#TRX-9843</td><td>26 Okt 2024</td><td>Gaji Karyawan</td><td><span class="badge-status badge-danger">Keluar</span></td><td>BCA</td><td style="color:var(--danger);font-weight:600">-Rp 45.000.000</td><td><span class="badge-status badge-success">Sukses</span></td></tr>
+                <tr><td>#TRX-9842</td><td>26 Okt 2024</td><td>Pembayaran Order #2840</td><td><span class="badge-status badge-success">Masuk</span></td><td>QRIS</td><td style="color:var(--success);font-weight:600">+Rp 1.450.000</td><td><span class="badge-status badge-success">Sukses</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORTS PAGE -->
+      <div class="page" id="page-reports">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Laporan & Analitik</h1>
+            <div class="page-sub">Analisis mendalam performa bisnis</div>
+          </div>
+          <button class="btn btn-primary">📥 Generate Laporan</button>
+        </div>
+
+        <div class="grid-3">
+          <div class="card" style="cursor:pointer" onclick="showToast('Laporan Penjualan diunduh','success')">
+            <div style="font-size:2.5rem;margin-bottom:.8rem">📊</div>
+            <div class="card-title">Laporan Penjualan</div>
+            <div class="card-sub">Analisis penjualan harian, mingguan, bulanan</div>
+            <div style="margin-top:1rem"><span class="badge-status badge-purple">PDF</span> <span class="badge-status badge-info">Excel</span></div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="showToast('Laporan Stok diunduh','success')">
+            <div style="font-size:2.5rem;margin-bottom:.8rem">📦</div>
+            <div class="card-title">Laporan Stok</div>
+            <div class="card-sub">Stok opname, pergerakan barang</div>
+            <div style="margin-top:1rem"><span class="badge-status badge-purple">PDF</span> <span class="badge-status badge-info">Excel</span></div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="showToast('Laporan Keuangan diunduh','success')">
+            <div style="font-size:2.5rem;margin-bottom:.8rem">💰</div>
+            <div class="card-title">Laporan Keuangan</div>
+            <div class="card-sub">Laba rugi, neraca, arus kas</div>
+            <div style="margin-top:1rem"><span class="badge-status badge-purple">PDF</span> <span class="badge-status badge-info">Excel</span></div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="showToast('Laporan Pelanggan diunduh','success')">
+            <div style="font-size:2.5rem;margin-bottom:.8rem">👥</div>
+            <div class="card-title">Laporan Pelanggan</div>
+            <div class="card-sub">Segmentasi, RFM analysis</div>
+            <div style="margin-top:1rem"><span class="badge-status badge-purple">PDF</span> <span class="badge-status badge-info">Excel</span></div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="showToast('Laporan Produk diunduh','success')">
+            <div style="font-size:2.5rem;margin-bottom:.8rem">🧴</div>
+            <div class="card-title">Laporan Produk</div>
+            <div class="card-sub">Best seller, slow moving</div>
+            <div style="margin-top:1rem"><span class="badge-status badge-purple">PDF</span> <span class="badge-status badge-info">Excel</span></div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="showToast('Laporan Pajak diunduh','success')">
+            <div style="font-size:2.5rem;margin-bottom:.8rem">📄</div>
+            <div class="card-title">Laporan Pajak</div>
+            <div class="card-sub">PPN, PPh, rekonsiliasi</div>
+            <div style="margin-top:1rem"><span class="badge-status badge-purple">PDF</span> <span class="badge-status badge-info">Excel</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Performa Penjualan per Bulan</div>
+              <div class="card-sub">Tahun 2024</div>
+            </div>
+          </div>
+          <div class="chart-box"><canvas id="yearlyChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- INVENTORY PAGE -->
+      <div class="page" id="page-inventory">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Stok Opname</h1>
+            <div class="page-sub">Kelola dan audit stok gudang</div>
+          </div>
+          <div style="display:flex;gap:.6rem">
+            <button class="btn btn-ghost"> Riwayat Opname</button>
+            <button class="btn btn-primary">+ Mulai Opname</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card purple">
+            <div class="stat-top"><div class="stat-icon">📦</div></div>
+            <div class="stat-value">2,847</div>
+            <div class="stat-label">Total Unit</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-top"><div class="stat-icon">✅</div></div>
+            <div class="stat-value">98.2%</div>
+            <div class="stat-label">Akurasi Stok</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-top"><div class="stat-icon">⚠️</div></div>
+            <div class="stat-value">4</div>
+            <div class="stat-label">Perlu Restock</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-top"><div class="stat-icon">🔄</div></div>
+            <div class="stat-value">12</div>
+            <div class="stat-label">Dalam Perjalanan</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Status Stok Produk</div>
+              <div class="card-sub">Update terakhir: 28 Okt 2024, 14:30</div>
+            </div>
+            <button class="btn btn-ghost">🔄 Refresh</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Produk</th><th>SKU</th><th>Stok Fisik</th><th>Stok Sistem</th><th>Selisih</th><th>Min. Stok</th><th>Status</th><th>Aksi</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><div class="product-cell"><div class="product-thumb" style="background:#fce7f3;color:#be185d"></div><div><div class="product-name">Midnight Rose</div><div class="product-cat">100ml EDP</div></div></div></td><td>MR-100</td><td>142</td><td>142</td><td style="color:var(--success)">0</td><td>20</td><td><span class="badge-status badge-success">Aman</span></td><td><button class="action-btn">✏️</button></td></tr>
+                <tr><td><div class="product-cell"><div class="product-thumb" style="background:#dbeafe;color:#1d4ed8">🌊</div><div><div class="product-name">Ocean Breeze</div><div class="product-cat">100ml EDT</div></div></div></td><td>OB-100</td><td>89</td><td>92</td><td style="color:var(--danger)">-3</td><td>25</td><td><span class="badge-status badge-warning">Selisih</span></td><td><button class="action-btn">️</button></td></tr>
+                <tr><td><div class="product-cell"><div class="product-thumb" style="background:#1a1512;color:#c9a961">🖤</div><div><div class="product-name">Dark Velvet</div><div class="product-cat">100ml Intense</div></div></div></td><td>DV-100</td><td>12</td><td>12</td><td style="color:var(--success)">0</td><td>15</td><td><span class="badge-status badge-danger">Menipis</span></td><td><button class="action-btn">✏️</button></td></tr>
+                <tr><td><div class="product-cell"><div class="product-thumb" style="background:#fef3c7;color:#92400e">✨</div><div><div class="product-name">Golden Amber</div><div class="product-cat">100ml Exclusive</div></div></div></td><td>GA-100</td><td>34</td><td>34</td><td style="color:var(--success)">0</td><td>10</td><td><span class="badge-status badge-success">Aman</span></td><td><button class="action-btn">✏️</button></td></tr>
+                <tr><td><div class="product-cell"><div class="product-thumb" style="background:#d1fae5;color:#065f46">🍋</div><div><div class="product-name">Fresh Citrus</div><div class="product-cat">100ml EDC</div></div></div></td><td>FC-100</td><td>0</td><td>2</td><td style="color:var(--danger)">-2</td><td>20</td><td><span class="badge-status badge-danger">Habis</span></td><td><button class="action-btn">️</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS PAGE -->
+      <div class="page" id="page-settings">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Pengaturan Sistem</h1>
+            <div class="page-sub">Konfigurasi aplikasi dan preferensi</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title" style="margin-bottom:1.2rem">Informasi Toko</div>
+            <div class="form-group">
+              <label>Nama Toko</label>
+              <input type="text" value="AROMATIQUE Maison">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" value="hello@aromatique.id">
+            </div>
+            <div class="form-group">
+              <label>Telepon</label>
+              <input type="tel" value="+62 21 5555 9090">
+            </div>
+            <div class="form-group">
+              <label>Alamat</label>
+              <textarea rows="3">Plaza Indonesia Lt.3, Jakarta Pusat 10310</textarea>
+            </div>
+            <button class="btn btn-primary">💾 Simpan Perubahan</button>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom:1.2rem">Preferensi</div>
+            <div class="form-group">
+              <label>Mata Uang</label>
+              <select><option>IDR - Rupiah</option><option>USD - Dollar</option></select>
+            </div>
+            <div class="form-group">
+              <label>Zona Waktu</label>
+              <select><option>WIB (GMT+7)</option><option>WITA (GMT+8)</option><option>WIT (GMT+9)</option></select>
+            </div>
+            <div class="form-group">
+              <label>Format Tanggal</label>
+              <select><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option><option>YYYY-MM-DD</option></select>
+            </div>
+            <div class="form-group">
+              <label>Bahasa</label>
+              <select><option>Bahasa Indonesia</option><option>English</option></select>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:.8rem;margin-top:1rem">
+              <label style="display:flex;align-items:center;gap:.6rem;cursor:pointer">
+                <input type="checkbox" checked> <span style="font-size:.88rem">Notifikasi email untuk pesanan baru</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:.6rem;cursor:pointer">
+                <input type="checkbox" checked> <span style="font-size:.88rem">Notifikasi stok menipis</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:.6rem;cursor:pointer">
+                <input type="checkbox"> <span style="font-size:.88rem">Mode maintenance</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE PAGE -->
+      <div class="page" id="page-profile">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Profil Admin</h1>
+            <div class="page-sub">Kelola akun dan keamanan Anda</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="text-align:center">
+            <div style="width:100px;height:100px;margin:0 auto 1rem;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-size:2.5rem;font-weight:700">AD</div>
+            <div class="card-title">Admin AROMATIQUE</div>
+            <div class="card-sub">Super Administrator</div>
+            <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:.6rem;text-align:left">
+              <div style="padding:.8rem;background:var(--bg);border-radius:8px"><div style="font-size:.75rem;color:var(--text-muted)">Email</div><div style="font-weight:600">admin@aromatique.id</div></div>
+              <div style="padding:.8rem;background:var(--bg);border-radius:8px"><div style="font-size:.75rem;color:var(--text-muted)">Telepon</div><div style="font-weight:600">+62 812 3456 7890</div></div>
+              <div style="padding:.8rem;background:var(--bg);border-radius:8px"><div style="font-size:.75rem;color:var(--text-muted)">Bergabung Sejak</div><div style="font-weight:600">15 Januari 2020</div></div>
+              <div style="padding:.8rem;background:var(--bg);border-radius:8px"><div style="font-size:.75rem;color:var(--text-muted)">Login Terakhir</div><div style="font-weight:600">28 Okt 2024, 09:15</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:1.2rem">Edit Profil</div>
+              <div class="form-group">
+                <label>Nama Lengkap</label>
+                <input type="text" value="Admin AROMATIQUE">
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" value="admin@aromatique.id">
+              </div>
+              <div class="form-group">
+                <label>Telepon</label>
+                <input type="tel" value="+62 812 3456 7890">
+              </div>
+              <button class="btn btn-primary">💾 Simpan</button>
+            </div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:1.2rem">Keamanan</div>
+              <div class="form-group">
+                <label>Password Lama</label>
+                <input type="password" placeholder="••••••••">
+              </div>
+              <div class="form-group">
+                <label>Password Baru</label>
+                <input type="password" placeholder="••••••••">
+              </div>
+              <div class="form-group">
+                <label>Konfirmasi Password</label>
+                <input type="password" placeholder="••••••••">
+              </div>
+              <button class="btn btn-primary"> Update Password</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal" id="productModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Tambah Produk Baru</div>
+      <button class="modal-close" onclick="closeModal('productModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Nama Produk</label>
+          <input type="text" placeholder="Contoh: Midnight Rose">
+        </div>
+        <div class="form-group">
+          <label>SKU</label>
+          <input type="text" placeholder="MR-100">
+        </div>
+        <div class="form-group">
+          <label>Kategori</label>
+          <select><option>Wanita</option><option>Pria</option><option>Unisex</option><option>Exclusive</option></select>
+        </div>
+        <div class="form-group">
+          <label>Harga (Rp)</label>
+          <input type="number" placeholder="1250000">
+        </div>
+        <div class="form-group">
+          <label>Stok</label>
+          <input type="number" placeholder="50">
+        </div>
+        <div class="form-group">
+          <label>Min. Stok</label>
+          <input type="number" placeholder="10">
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <input type="text" placeholder="Mawar Taif · Oud · Vanilla">
+        </div>
+        <div class="form-group full">
+          <label>Deskripsi</label>
+          <textarea rows="3" placeholder="Deskripsi produk..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('productModal')">Batal</button>
+      <button class="btn btn-primary" onclick="saveProduct()">💾 Simpan Produk</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon" id="toastIcon">✓</div>
+  <div class="toast-text" id="toastText">Berhasil disimpan</div>
+</div>
+
+<script>
+// NAVIGATION
+document.querySelectorAll('.menu-item').forEach(item=>{
+  item.onclick=()=>showPage(item.dataset.page);
+});
+
+function showPage(page){
+  document.querySelectorAll('.menu-item').forEach(i=>i.classList.remove('active'));
+  document.querySelector(`[data-page="${page}"]`)?.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  if(window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open');
+  if(page==='finance') initFinanceCharts();
+  if(page==='reports') initYearlyChart();
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// MODAL
+function openModal(id){document.getElementById(id).classList.add('active')}
+function closeModal(id){document.getElementById(id).classList.remove('active')}
+
+// TOAST
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  document.getElementById('toastText').textContent=msg;
+  document.getElementById('toastIcon').textContent=type==='success'?'✓':'✕';
+  t.className='toast show'+(type==='error'?' error':'');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// PRODUCTS DATA
+const productsData=[
+  {name:'Midnight Rose',sku:'MR-100',cat:'Wanita',price:1250000,stock:142,min:20,color:'#fce7f3',icon:'🌹',status:'Tersedia'},
+  {name:'Ocean Breeze',sku:'OB-100',cat:'Pria',price:980000,stock:89,min:25,color:'#dbeafe',icon:'🌊',status:'Tersedia'},
+  {name:'Dark Velvet',sku:'DV-100',cat:'Pria',price:1450000,stock:12,min:15,color:'#1a1512',icon:'🖤',status:'Menipis'},
+  {name:'Blossom Dream',sku:'BD-100',cat:'Wanita',price:1150000,stock:67,min:20,color:'#fce7f3',icon:'',status:'Tersedia'},
+  {name:'Fresh Citrus',sku:'FC-100',cat:'Unisex',price:850000,stock:0,min:20,color:'#d1fae5',icon:'🍋',status:'Habis'},
+  {name:'Golden Amber',sku:'GA-100',cat:'Exclusive',price:1850000,stock:34,min:10,color:'#fef3c7',icon:'✨',status:'Tersedia'},
+  {name:'Noir Intense',sku:'NI-100',cat:'Pria',price:1350000,stock:45,min:15,color:'#1a1a1a',icon:'⚫',status:'Tersedia'},
+  {name:'Velvet Orchid',sku:'VO-100',cat:'Wanita',price:1280000,stock:8,min:15,color:'#f3e8ff',icon:'',status:'Menipis'}
+];
+
+function renderProducts(){
+  document.getElementById('productTable').innerHTML=productsData.map(p=>{
+    let statusClass='badge-success';
+    if(p.status==='Menipis') statusClass='badge-warning';
+    if(p.status==='Habis') statusClass='badge-danger';
+    return `<tr>
+      <td><div class="product-cell"><div class="product-thumb" style="background:${p.color}">${p.icon}</div><div><div class="product-name">${p.name}</div><div class="product-cat">${p.sku}</div></div></div></td>
+      <td>${p.sku}</td>
+      <td>${p.cat}</td>
+      <td style="font-weight:600">Rp ${p.price.toLocaleString('id-ID')}</td>
+      <td>${p.stock}</td>
+      <td><span class="badge-status ${statusClass}">${p.status}</span></td>
+      <td><div class="action-btns"><button class="action-btn" onclick="showToast('Produk diedit','success')">✏️</button><button class="action-btn danger" onclick="showToast('Produk dihapus','error')">🗑️</button></div></td>
+    </tr>`;
+  }).join('');
+}
+
+// ORDERS DATA
+const ordersData=[
+  {id:'#ORD-2847',customer:'Sabrina Anindita',date:'28 Okt 2024',items:2,total:1250000,pay:'BCA Transfer',status:'Selesai'},
+  {id:'#ORD-2846',customer:'Raditya Prasetyo',date:'28 Okt 2024',items:3,total:2450000,pay:'GoPay',status:'Diproses'},
+  {id:'#ORD-2845',customer:'Maya Kusumawardani',date:'27 Okt 2024',items:1,total:980000,pay:'QRIS',status:'Dikirim'},
+  {id:'#ORD-2844',customer:'Andi Wijaya',date:'27 Okt 2024',items:2,total:1850000,pay:'Mandiri',status:'Selesai'},
+  {id:'#ORD-2843',customer:'Dewi Sartika',date:'26 Okt 2024',items:1,total:750000,pay:'OVO',status:'Dibatalkan'},
+  {id:'#ORD-2842',customer:'Budi Santoso',date:'26 Okt 2024',items:4,total:3200000,pay:'Kartu Kredit',status:'Selesai'},
+  {id:'#ORD-2841',customer:'Citra Lestari',date:'25 Okt 2024',items:2,total:1680000,pay:'DANA',status:'Dikirim'}
+];
+
+function renderOrders(){
+  document.getElementById('orderTable').innerHTML=ordersData.map(o=>{
+    let sc='badge-success';
+    if(o.status==='Diproses') sc='badge-warning';
+    if(o.status==='Dikirim') sc='badge-info';
+    if(o.status==='Dibatalkan') sc='badge-danger';
+    if(o.status==='Menunggu') sc='badge-purple';
+    return `<tr>
+      <td style="font-weight:600;color:var(--primary)">${o.id}</td>
+      <td><div class="product-name">${o.customer}</div></td>
+      <td>${o.date}</td>
+      <td>${o.items} item</td>
+      <td style="font-weight:600">Rp ${o.total.toLocaleString('id-ID')}</td>
+      <td>${o.pay}</td>
+      <td><span class="badge-status ${sc}">${o.status}</span></td>
+      <td><div class="action-btns"><button class="action-btn" onclick="showToast('Detail pesanan','success')">️</button><button class="action-btn" onclick="showToast('Edit pesanan','success')">️</button></div></td>
+    </tr>`;
+  }).join('');
+}
+
+// CUSTOMERS DATA
+const customersData=[
+  {name:'Sabrina Anindita',email:'sabrina@mail.com',phone:'081234567890',orders:24,spent:28500000,tier:'VIP',initials:'SA'},
+  {name:'Raditya Prasetyo',email:'raditya@mail.com',phone:'081298765432',orders:18,spent:22100000,tier:'VIP',initials:'RP'},
+  {name:'Maya Kusumawardani',email:'maya@mail.com',phone:'081345678901',orders:32,spent:41200000,tier:'VIP',initials:'MK'},
+  {name:'Andi Wijaya',email:'andi@mail.com',phone:'081456789012',orders:8,spent:9800000,tier:'Regular',initials:'AW'},
+  {name:'Dewi Sartika',email:'dewi@mail.com',phone:'081567890123',orders:3,spent:2850000,tier:'New',initials:'DS'},
+  {name:'Budi Santoso',email:'budi@mail.com',phone:'081678901234',orders:15,spent:18700000,tier:'Regular',initials:'BS'},
+  {name:'Citra Lestari',email:'citra@mail.com',phone:'081789012345',orders:11,spent:14200000,tier:'Regular',initials:'CL'}
+];
+
+function renderCustomers(){
+  document.getElementById('customerTable').innerHTML=customersData.map(c=>{
+    let tc='badge-info';
+    if(c.tier==='VIP') tc='badge-purple';
+    if(c.tier==='New') tc='badge-success';
+    return `<tr>
+      <td><div class="product-cell"><div class="product-thumb" style="background:var(--primary-light);color:var(--primary);font-weight:600;font-size:.75rem">${c.initials}</div><div><div class="product-name">${c.name}</div></div></div></td>
+      <td>${c.email}</td>
+      <td>${c.phone}</td>
+      <td>${c.orders}</td>
+      <td style="font-weight:600">Rp ${c.spent.toLocaleString('id-ID')}</td>
+      <td><span class="badge-status ${tc}">${c.tier}</span></td>
+      <td><div class="action-btns"><button class="action-btn" onclick="showToast('Detail pelanggan','success')">👁️</button><button class="action-btn" onclick="showToast('Edit pelanggan','success')">✏️</button></div></td>
+    </tr>`;
+  }).join('');
+}
+
+// SAVE PRODUCT
+function saveProduct(){
+  closeModal('productModal');
+  showToast('Produk berhasil ditambahkan!','success');
+}
+
+// CHARTS
+let salesChart,categoryChart,cashflowChart,expenseChart,yearlyChart;
+
+function initDashboardCharts(){
+  const sctx=document.getElementById('salesChart');
+  if(sctx){
+    if(salesChart) salesChart.destroy();
+    salesChart=new Chart(sctx,{
+      type:'line',
+      data:{
+        labels:['Sen','Sel','Rab','Kam','Jum','Sab','Min'],
+        datasets:[{
+          label:'Pendapatan',
+          data:[32,45,38,52,48,65,58],
+          borderColor:'#6366f1',
+          backgroundColor:'rgba(99,102,241,.1)',
+          fill:true,
+          tension:.4,
+          borderWidth:2.5,
+          pointRadius:4,
+          pointBackgroundColor:'#6366f1'
+        }]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{
+          y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>'Rp '+v+'jt'}},
+          x:{grid:{display:false}}
+        }
+      }
+    });
+  }
+  const cctx=document.getElementById('categoryChart');
+  if(cctx){
+    if(categoryChart) categoryChart.destroy();
+    categoryChart=new Chart(cctx,{
+      type:'doughnut',
+      data:{
+        labels:['Wanita','Pria','Unisex','Exclusive'],
+        datasets:[{
+          data:[42,28,18,12],
+          backgroundColor:['#6366f1','#10b981','#f59e0b','#3b82f6'],
+          borderWidth:0
+        }]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:'bottom',labels:{padding:15,usePointStyle:true}}}
+      }
+    });
+  }
+}
+
+function initFinanceCharts(){
+  const cfctx=document.getElementById('cashflowChart');
+  if(cfctx){
+    if(cashflowChart) cashflowChart.destroy();
+    cashflowChart=new Chart(cfctx,{
+      type:'bar',
+      data:{
+        labels:['Mei','Jun','Jul','Ags','Sep','Okt'],
+        datasets:[
+          {label:'Pemasukan',data:[180,210,195,240,265,284],backgroundColor:'#10b981',borderRadius:6},
+          {label:'Pengeluaran',data:[95,110,105,125,130,141],backgroundColor:'#ef4444',borderRadius:6}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:15}}},
+        scales:{y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>'Rp '+v+'jt'}},x:{grid:{display:false}}}
+      }
+    });
+  }
+  const ectx=document.getElementById('expenseChart');
+  if(ectx){
+    if(expenseChart) expenseChart.destroy();
+    expenseChart=new Chart(ectx,{
+      type:'pie',
+      data:{
+        labels:['HPP','Operasional','Gaji','Marketing','Lainnya'],
+        datasets:[{
+          data:[45,20,22,8,5],
+          backgroundColor:['#6366f1','#10b981','#f59e0b','#3b82f6','#ef4444'],
+          borderWidth:0
+        }]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:'bottom',labels:{padding:12,usePointStyle:true}}}
+      }
+    });
+  }
+}
+
+function initYearlyChart(){
+  const yctx=document.getElementById('yearlyChart');
+  if(yctx){
+    if(yearlyChart) yearlyChart.destroy();
+    yearlyChart=new Chart(yctx,{
+      type:'line',
+      data:{
+        labels:['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'],
+        datasets:[{
+          label:'Penjualan 2024',
+          data:[180,195,210,225,240,235,250,265,270,284,0,0],
+          borderColor:'#6366f1',
+          backgroundColor:'rgba(99,102,241,.1)',
+          fill:true,tension:.4,borderWidth:2.5,
+          pointRadius:4,pointBackgroundColor:'#6366f1'
+        },{
+          label:'Penjualan 2023',
+          data:[150,165,175,185,195,200,210,220,225,240,255,270],
+          borderColor:'#f59e0b',
+          backgroundColor:'transparent',
+          borderDash:[5,5],tension:.4,borderWidth:2,
+          pointRadius:3,pointBackgroundColor:'#f59e0b'
+        }]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:15}}},
+        scales:{y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>'Rp '+v+'jt'}},x:{grid:{display:false}}}
+      }
+    });
+  }
+}
+
+// INIT
+renderProducts();
+renderOrders();
+renderCustomers();
+initDashboardCharts();
+</script>
+</body>
+</html>
